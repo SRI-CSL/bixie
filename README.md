@@ -1,20 +1,49 @@
-Bixie - Inconsistent Code Detection for Java
+![Bixie](https://raw.githubusercontent.com/SRI-CSL/bixie/gh-pages/img/bixie_small.png) Inconsistent Code Detection for Java
 =====
-[![Build Status](https://travis-ci.org/martinschaef/bixie.png)](https://travis-ci.org/martinschaef/bixie)
-[![Coverity Scan](https://scan.coverity.com/projects/5463/badge.svg)](https://scan.coverity.com/projects/5463)
-[![Coverage Status](https://coveralls.io/repos/martinschaef/bixie/badge.svg?branch=master)](https://coveralls.io/r/martinschaef/bixie?branch=master) 
+[![Build Status](https://travis-ci.org/SRI-CSL/bixie.png)](https://travis-ci.org/SRI-CSL/bixie)
+[![Coverage Status](https://coveralls.io/repos/SRI-CSL/bixie/badge.svg?branch=master)](https://coveralls.io/r/SRI-CSL/bixie?branch=master) 
+
+Check our the **[Online Demo](http://csl.sri.com/projects/bixie/)**.
+
+Bixie is a static analysis tool that detects inconsistencies in Java bytecode. An inconsistency occurs if code must throw an exception or is unreachable because because of assumptions made by other statements. 
+
+##### Examples
+
+	 if (operator == null) {
+	 	throw new SemanticException("Operator " + operator.getName());
+	 }
+
+In this example from Hive, `operator.getName()` is inconsistent with the conditional
+`operator == null`. 
+
+In this example from Cassandra:
+	
+	public Boolean generate() {
+		return identityDistribution.next() % 1 == 0;
+	}
+
+There is an inconsistency in the bytecode because the expression `identityDistribution.next() % 1 == 0` appears as a conditional choice in the bytecode where one case is unreachable because `identityDistribution.next() % 1` returns a constant value.
 
 
-Check our **[Website](http://martinschaef.github.io/bixie/)** or the **[Online Demo](http://csl.sri.com/projects/bixie/)**.
+#### Build instructions:
 
-Stable releases and experimental setups to repeat the experiments from our papers are in the [Release](https://github.com/martinschaef/bixie/releases) section. 
+Bixie uses gradle to build:
 
-We recently changed our build system to [Gradle](https://gradle.org/).  After cloning the project, type:
+	git clone https://github.com/SRI-CSL/bixie.git
+	cd bixie
+    ./gradlew shadowJar
 
-    ./gradlew check
+#### Usage example:
+To check if everything is working, run Bixie on itself:
 
-to compile and run the unit tests. If you don't have gradle installed, used the gradle wrappers `gradlew` or `gradlew.bat`. If you haven't used gradle before, you should look run `gradle tasks` to see what you can do with it. E.g., `gradle eclipse` builds an Eclipse project for Bixie.
+	cd build/libs/
+	java -jar bixie.jar -j ../classes/main/
 
-Visit our **[Website](http://martinschaef.github.io/bixie/)** for a tutorial on how to use Bixie on your Java code.
+#### Soundness remarks:
+Bixie is not sound. Many Java features, such as concurrency and reflection, are not handled by Bixie and may result in false alarms. Bixie also sometimes detects inconsistencies in the bytecode that have no corresponding inconsistency in the source code. For example, conditional choices with conjunctions in the condition sometimes raise false alarms.
 
-Bixe uses [Jar2Bpl](https://github.com/martinschaef/jar2bpl) to turn Java into Boogie.
+
+
+
+
+
