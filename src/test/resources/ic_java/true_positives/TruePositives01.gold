@@ -1,0 +1,18 @@
+In File: TruePositives01.java
+** Critical **
+	Lines: 13, 18
+	Lines: 30, 32
+	Lines: 37, 40
+	Lines: 45, 46
+	Lines: 51, 53, 54
+	Lines: 51, 53, 55
+	Lines: 58, 59
+	Lines: 73
+	Lines: 82, 89
+	Lines: 108, 115
+ - Unreachable -
+	Lines: 66, 67
+	Lines: 93, 94
+	Lines: 93, 94, 98
+Summary: fwd=10	bwd=3
+

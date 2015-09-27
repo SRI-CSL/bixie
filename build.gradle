@@ -1,0 +1,187 @@
+if(JavaVersion.current() < JavaVersion.VERSION_1_7){
+    println("\t************************")
+    println("\t*** Hello from Bixie ***")
+    println("\tYou will need Java 1.7 or higher if you want to continue.")
+    println("\tYour Java is really old. Found version " + JavaVersion.current())
+    println("\t************************")
+    throw new GradleException("Update your Java!")    
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+//install the commit hook if possible.
+def hook_folder = new File('./.git/hooks')
+def hook = new File('pre-commit.sh')
+def installed_hook = new File('./.git/hooks/pre-commit')
+
+if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+ println("Installing pre-commit hook for WINDOWS")
+ if (hook.exists() && hook_folder.exists() && !installed_hook.exists()) {
+  exec {
+   commandLine 'cmd', '/c', 'copy', hook.getAbsolutePath(), installed_hook.getAbsolutePath()
+  }  
+ }
+} else {
+ println("Installing pre-commit hook for Unix/OS X")
+ if (hook.exists() && hook_folder.exists() && !installed_hook.exists()) {
+  exec {
+   workingDir '.'
+   commandLine 'cp', hook, installed_hook
+  }  
+ } 
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+apply plugin: 'findbugs'
+apply plugin: 'jdepend'
+if (!project.hasProperty('coverityMode')) {
+  //don't use error-prone when checking the code
+  //with coverity or infer, because it wraps around
+  //the compiler which confuses these tools.
+  apply plugin: 'net.ltgt.errorprone'
+}
+apply plugin: 'checkstyle'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+
+def version = '1.0'
+jar.archiveName = "bixie_dyn.jar"
+shadowJar.archiveName = "bixie.jar"
+mainClassName = "bixie.Main"
+
+repositories {
+  mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name 'Shadow'
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:latest.release'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    }
+}
+
+configurations{
+  common
+}
+
+dependencies {
+    compile 'args4j:args4j:2.32'    
+    compile 'log4j:log4j:1.2.17'
+    compile 'com.google.code.findbugs:annotations:3.0.0'
+    compile 'org.scala-lang:scala-actors:2.11.7'
+    compile 'org.scala-lang:scala-library:2.11.7'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    compile fileTree(dir: 'lib', include: '*.jar')    
+    testCompile "junit:junit:4.11"  // Or whatever version
+}
+
+
+// building the jar ---------------------
+jar {
+  println("WARNING: jar does not create an executable jar. Use shadowJar instead.")
+  baseName = 'bixie'
+
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                   'Class-Path': '.',
+                   'Implementation-Title': 'Bixie',
+                   'Implementation-Version': version
+    }
+
+    from('src/main/resorces'){ include('log4j.properties')}
+
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+jar.dependsOn shadowJar
+
+// testing related activities -----------------
+tasks.withType(FindBugs) {
+    effort = "default"
+    reportLevel = "medium"
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+ }
+
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/coverage"
+    }
+}
+
+test {
+  jacoco {
+    enabled = true
+  }
+
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+
+    useJUnit()
+}
+
+task selfCheck {
+  group 'Verification'
+  description 'Run Bixie on itself.'
+
+  doLast {
+    def bixieJar = shadowJar.archivePath
+    def bixieDir = compileJava.destinationDir
+    def bixieClassPath = compileJava.classpath.asPath
+    //TODO generate this.
+    def bixieReportDir = "${buildDir}/reports/self_test.txt"
+
+    exec {
+        workingDir '.'
+        commandLine 'java', '-jar', bixieJar, '-j', bixieDir, '-cp', bixieClassPath, '-o', bixieReportDir, '-checker', '3'
+    }
+
+  }
+}
+
+task inferCheck {
+  group 'Verification'
+  description 'Run Facebook Infer on this project.'
+
+  doLast {
+    println("REQUIRES Infer TO BE IN YOUR PATH.")
+
+    exec {
+        workingDir '.'
+        commandLine 'infer', '--', 'gradle', '-PcoverityMode', 'clean', 'compileJava'
+    }
+
+  }
+}
+
+
+
