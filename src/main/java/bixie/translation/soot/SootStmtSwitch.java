@@ -514,7 +514,7 @@ public class SootStmtSwitch implements StmtSwitch {
 				return ((RefType) l.getType()).getSootClass();
 			}
 		}
-		System.err.println("Unexpected value in throw stmt " + s.getOp());
+//		System.err.println("Unexpected value in throw stmt " + s.getOp());
 		return Scene.v().loadClass("java.lang.Throwable", SootClass.SIGNATURES);
 	}
 

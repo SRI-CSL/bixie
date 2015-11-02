@@ -44,7 +44,7 @@ public class SootAnnotations {
 			} else if (t instanceof IntegerConstantValueTag) {
 
 			} else {
-				Log.error("Unimplemented Tag found: "+t.getName());
+				Log.debug("Unimplemented Tag found: "+t.getName());
 			}
 		}
 		if (annot == null) annot = new LinkedList<SootAnnotations.Annotation>();

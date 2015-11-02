@@ -243,7 +243,7 @@ public class AbstractTransitionRelation {
 						todo.addLast(suc);
 					} else {
 						// This has to be checked
-						Log.error("The node has a self-loop! This is not supposed to happen.");
+						Log.debug("The node has a self-loop! This is not supposed to happen.");
 					}
 				}
 			}
@@ -259,7 +259,6 @@ public class AbstractTransitionRelation {
 				// offset?
 				int idx = done.indexOf(suc) - done.indexOf(b);
 				succIndices.add(idx);
-				// Log.error("\t " +idx+":"+suc.getName() );
 			}
 			// TODO: review. can be done better
 			if (reachVars.get(b)==null) throw new RuntimeException("Cannot find var for "+b.getLabel());

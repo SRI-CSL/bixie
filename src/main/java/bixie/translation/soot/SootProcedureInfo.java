@@ -25,6 +25,19 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.translation.GlobalsCache;
+import bixie.translation.util.CustomNullnessAnalysis;
+import boogie.ProgramFactory;
+import boogie.ast.Attribute;
+import boogie.ast.VarList;
+import boogie.ast.declaration.Implementation;
+import boogie.ast.declaration.ProcedureDeclaration;
+import boogie.ast.expression.Expression;
+import boogie.ast.expression.IdentifierExpression;
+import boogie.ast.specification.Specification;
+import boogie.ast.statement.AssumeStatement;
+import boogie.enums.BinaryOperator;
+import boogie.type.BoogieType;
 import soot.Local;
 import soot.PrimType;
 import soot.RefType;
@@ -39,20 +52,6 @@ import soot.tagkit.Tag;
 import soot.tagkit.VisibilityAnnotationTag;
 import soot.toolkits.exceptions.UnitThrowAnalysis;
 import soot.toolkits.graph.ExceptionalUnitGraph;
-import util.Log;
-import bixie.translation.GlobalsCache;
-import bixie.translation.util.CustomNullnessAnalysis;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.VarList;
-import boogie.ast.declaration.Implementation;
-import boogie.ast.declaration.ProcedureDeclaration;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.specification.Specification;
-import boogie.ast.statement.AssumeStatement;
-import boogie.enums.BinaryOperator;
-import boogie.type.BoogieType;
 
 /**
  * @author schaef
@@ -227,7 +226,7 @@ public class SootProcedureInfo {
 				for (Tag tag : this.sootMethod.getTags()) {
 					if (tag instanceof VisibilityAnnotationTag) {
 						if (annot != null) {
-							Log.error("Didn't expect so many tags for procedure! Check that!");
+//							Log.error("Didn't expect so many tags for procedure! Check that!");
 							break;
 						}
 						annot = SootAnnotations

@@ -1,7 +1,12 @@
 ![Bixie](https://raw.githubusercontent.com/SRI-CSL/bixie/gh-pages/img/bixie_small.png) Inconsistent Code Detection for Java
 =====
-[![Build Status](https://travis-ci.org/SRI-CSL/bixie.png)](https://travis-ci.org/SRI-CSL/bixie)
+#### Status of Master
+[![Build Status](https://travis-ci.org/SRI-CSL/bixie.png?branch=master)](https://travis-ci.org/SRI-CSL/bixie)
 [![Coverage Status](https://coveralls.io/repos/SRI-CSL/bixie/badge.svg?branch=master)](https://coveralls.io/r/SRI-CSL/bixie?branch=master) 
+
+#### Status of Devel
+[![Build Status](https://travis-ci.org/SRI-CSL/bixie.png?branch=devel)](https://travis-ci.org/SRI-CSL/bixie)
+[![Coverage Status](https://coveralls.io/repos/SRI-CSL/bixie/badge.svg?branch=devel)](https://coveralls.io/r/SRI-CSL/bixie?branch=devel) 
 
 Check our the **[Online Demo](http://csl.sri.com/projects/bixie/)**.
 

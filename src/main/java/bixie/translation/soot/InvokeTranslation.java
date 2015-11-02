@@ -182,7 +182,7 @@ public class InvokeTranslation {
 
 		if (ivk.getMethod().getSignature()
 				.contains("<java.lang.System: void exit(int)>")) {
-			Log.info("Surppressing false positive from call to System.exit");
+			Log.debug("Surppressing false positive from call to System.exit");
 			// this is not a return statement, it actually ends the application.
 			// ss.addStatement(pf.mkAssumeStatement(new
 			// Attribute[]{pf.mkNoVerifyAttribute()},
@@ -452,8 +452,8 @@ public class InvokeTranslation {
 		// and create an unconditional goto.
 		if (finally_traps.size() > 0) {
 			if (finally_traps.size() > 1) {
-				Log.error("more than one finally trap for "
-						+ procInfo.getBoogieName());
+//				Log.error("more than one finally trap for "
+//						+ procInfo.getBoogieName());
 			}
 			Trap trap = finally_traps.get(0);
 
@@ -632,8 +632,8 @@ public class InvokeTranslation {
 		// and create an unconditional goto.
 		if (finally_traps.size() > 0) {
 			if (finally_traps.size() > 1) {
-				Log.error("more than one finally trap for "
-						+ procInfo.getBoogieName());
+//				Log.error("more than one finally trap for "
+//						+ procInfo.getBoogieName());
 			}
 			Trap trap = finally_traps.get(0);
 
