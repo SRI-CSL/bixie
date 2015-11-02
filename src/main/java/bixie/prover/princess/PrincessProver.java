@@ -48,6 +48,7 @@ import bixie.prover.ProverFun;
 import bixie.prover.ProverListener;
 import bixie.prover.ProverResult;
 import bixie.prover.ProverType;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 
 public class PrincessProver implements Prover {
@@ -575,7 +576,7 @@ public class PrincessProver implements Prover {
 		return ((FormulaExpr) exp).formula;
 	}
 
-	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value="DM_DEFAULT_ENCODING")
+	@SuppressWarnings(value="DM_DEFAULT_ENCODING")
 	public String proverExprToSMT(ProverExpr exp) {
 		PrintStream originalOut = scala.Console.out();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
