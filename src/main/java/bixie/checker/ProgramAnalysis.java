@@ -144,7 +144,7 @@ public class ProgramAnalysis {
 			// set timeout to method info
 			// methodInfo.setTimeout(true);
 			timeouts++;
-			Log.info("Timeout reached for method " + p.getProcedureName());
+			Log.debug("Timeout reached for method " + p.getProcedureName());
 			exception = true;
 		} catch (OutOfMemoryError e) {
 			Log.info("Out of memory for " + p.getProcedureName());
