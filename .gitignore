@@ -9,3 +9,4 @@ build/
 cov-int/
 **/*.log
 *.txt
+*.pyc

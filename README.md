@@ -44,6 +44,15 @@ To check if everything is working, run Bixie on itself:
 	cd build/libs/
 	java -jar bixie.jar -j ../classes/main/
 
+#### Bixie runner:
+For your convenience, there is a Python script (runner/runner.py) that will automatically determine what classpaths to use and where class files are generated for projects built with ant, maven, or gradle, and then run Bixie for you. For example:
+
+  cd <path-to-project>
+  mvn clean
+  python <path-to-bixie>/runner/runner.py -- mvn compile
+
+This command will execute the maven build process for the project and scrape its output for instances where javac was called, then feed that information to Bixie. Be sure to clean before building, as the tool can only detect files that were actually compiled.
+
 #### Soundness remarks:
 Bixie is not sound. Many Java features, such as concurrency and reflection, are not handled by Bixie and may result in false alarms. Bixie also sometimes detects inconsistencies in the bytecode that have no corresponding inconsistency in the source code. For example, conditional choices with conjunctions in the condition sometimes raise false alarms.
 
