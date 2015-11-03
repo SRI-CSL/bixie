@@ -39,10 +39,10 @@
 
 <h3>What is Inconsistent Code?</h3>
 <p>
-Inconsistent Code is a form of code smell. It is code that has no normal terminating execution. That is,
+Inconsistent Code is a code smell. It is code that has no normal terminating execution, which is to say
 it is either not reachable, or any execution reaching it is doomed to fail. Inconsistent Code is not 
-necissarily a bug (it might be just unreachable), but it raises the question why this code has been written 
-if it cannot be executed without a crash. Let's look at the example below:
+necessarily a bug (it might be just unreachable), but it raises the question of why this code has been written 
+if it cannot be executed without a crash. Let's look at the following example:
 </p>
 <textarea class="snippet">
 void inconsistent(int a) {
@@ -64,87 +64,98 @@ What can we say about this code?
 	<li>The assertion in line 6 <u>must</u> be violated if line 4 is executed.</li>	
 	<li>Line 4 is <u>inconsistent</u> with line 6.</li>
 </ol>
-While the observations 1 and 2 may be interesting, we cannot prove them without knowing the possible
-values of <code>a</code>. Hence, reporting these issues may result in a false alarm. The 
-observations 3 and 4, however, can be verified without any additional information.
+While observations 1 and 2 may be interesting, we cannot prove them without knowing the possible
+values of <code>a</code>. Hence, reporting these issues may be a false alarm.  
+Observations 3 and 4, however, can be verified without any additional information.
 </p>
 <p>
 Bixie proves that any execution containing line 4 <b>must</b> fail. That is, Bixie uses formal 
-methods to verify that this procedure has no terminating execution containing line 4.
+methods to verify that this procedure has no normally terminating execution containing line 4.
 Note that Bixe does not check if <code>a</code> can be <code>0</code> or not, but we can prove that
-any execution passing line 3 must violate the assertion in line 5.
+any execution passing line 4 must violate the assertion in line 6 without that knowledge.
 </p>
 
 
 	<h3>Download and Usage</h3>
 
 	<p>
-		If you just want to play with Bixie use our 
+		If you just want to play with Bixie, use our 
 		<a href="http://www.csl.sri.com/bixie-ws/index" target="_blank">Web Interface</a>.
 	</p>
 
-	<p>Before you start, check your Java version. 
-	You need at least  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank">JDK 7</a> 
-	</p>
-
 	<h4> Get the Jar file</h4>
-	<p>	
+
+  <p>
+    Before you start, check your Java version. You need at least
+    <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank">JDK 7</a>.
+  </p>
+
+  <p>	
 	Download the latest release from <a href="https://github.com/martinschaef/bixie/releases" target="_blank">GitHub</a>. 
-	<pre>
-	wget https://github.com/martinschaef/bixie/releases/download/1.3/ATVA15.zip
-	unzip ATVA15.zip
-	cd ATVA15/</pre>
 	<br>
     -or-
     <br>
     Build from source:
 	<pre>
-	git clone https://github.com/martinschaef/bixie.git
-	./gradlew jar
-	cd build/libs/</pre>
+  git clone https://github.com/martinschaef/bixie.git
+  ./gradlew jar</pre>
+  </p>
+  <p>
+  bixie.jar will be created in <code>build/libs/</code>.
 	</p>
+  
 
 	<h4>Run Bixie on your code</h4>	
-	<pre>
-	wget http://martinschaef.github.io/bixie/Demo.java
-	mkdir classes
-	javac Demo.java -d classes/
-	java -Xms2g -Xss4m -jar bixie.jar -j classes/</pre>	
+
+	<pre>  wget http://martinschaef.github.io/bixie/Demo.java
+  mkdir classes
+  javac Demo.java -d classes/
+  java -Xms2g -Xss4m -jar bixie.jar -j classes/</pre>	
 
 	<p>
 	To run Bixie on your own project use
 	</p>
-	<pre>java -jar bixie.jar -j [class dir] -cp [classpath] -o [output] </pre>
+	<pre>  java -jar bixie.jar -j [class dir] -cp [classpath] -o [output] </pre>
 	<p>
 	Where <code>[class dir]</code> is the root directory of your class files (usually 'classes'), 
 	<code>[classpath]</code> is the classpath that was used to generate the class files, and 
 	<code>[output]</code> is the ouput file where Bixie puts its report.
 	</p>
 
-	<p>
-	To rerun the experiments from our papers on various open-source projects, look at the python scripts 
-	on <a href="https://github.com/martinschaef/bixie/tree/master/experiments" target="_blank">GitHub</a> 
-	or in the release archive. Note that this may take hours or even days.
-	</p>
+  <p>
+  Alternately, use our Bixie runner script, which can automatically detect the
+  <code>[class dir]</code> and <code>[classpath]</code> of projects built with
+  ant, maven, or gradle. From the directory of the project you want to check:
+  </p>
+
+  <pre>  mvn clean
+  python [path-to-bixie]/runner/runner.py -- mvn compile</pre>
+
+  <p>
+  The runner script optionally supports command line arguments for the location
+  of the Bixie jar file (only needed if you have moved it from the default location
+  in build/libs) and a directory to output results. Run <code>python runner.py</code>
+  without any arguments for help.
+  </p>
 
 	<h3>Inconsistent Code found by Bixie</h3>
 		<p>
-		We keep running Bixie on open-source projects and report our findings. 
+		We run Bixie on open-source projects and report our findings. 
 		In order to avoid spamming developers, we inspect each warning manually to make sure that it is relevant.
 		Here are some instances of inconsistent code that were found and fixed by Bixie in popular projects: 
 		</p>
 		<ul>
-		<li>Apache Cassandra: <a href="https://github.com/apache/cassandra/pull/46" target="_blank">see pull request</a></li>
-		<li>Apache Hive: <a href="https://github.com/apache/hive/pull/23" target="_blank">see pull request</a></li>
-		<li>Apache jMeter: <a href="https://github.com/apache/jmeter/pull/10" target="_blank">see pull request</a></li>
-		<li>Apache Maven: <a href="https://github.com/apache/maven/pull/30" target="_blank">see pull request</a></li>
-		<li>Apache Tomcat: <a href="https://github.com/apache/tomcat/pull/13" target="_blank">see pull request</a></li>
-		<li>Bouncy Castle: <a href="https://github.com/bcgit/bc-java/pull/87" target="_blank">see pull request</a></li>
-		<li> Soot: see pull request <a href="https://github.com/Sable/soot/pull/244" target="_blank"> 1</a> and 
-		<a href="https://github.com/Sable/soot/pull/261" target="_blank">2</a> and 
-		<a href="https://github.com/Sable/soot/pull/260" target="_blank">3</a> </li>
-		<li>WildFly: <a href="https://github.com/wildfly/wildfly/pull/7370" target="_blank">see pull request</a></li>
-		<li>Apache Flume: <a href="https://github.com/apache/flume/pull/17" target="_blank">see pull request</a></li>
+		<li>Apache Cassandra: <a href="https://github.com/apache/cassandra/pull/46" target="_blank">pull request</a></li>
+		<li>Apache Hive: <a href="https://github.com/apache/hive/pull/23" target="_blank">pull request</a></li>
+		<li>Apache jMeter: <a href="https://github.com/apache/jmeter/pull/10" target="_blank">pull request</a></li>
+		<li>Apache Maven: <a href="https://github.com/apache/maven/pull/30" target="_blank">pull request</a></li>
+		<li>Apache Tomcat: <a href="https://github.com/apache/tomcat/pull/13" target="_blank">pull request</a></li>
+		<li>Bouncy Castle: <a href="https://github.com/bcgit/bc-java/pull/87" target="_blank">pull request</a></li>
+		<li>Soot: pull requests <a href="https://github.com/Sable/soot/pull/244" target="_blank"> 1</a>, 
+      <a href="https://github.com/Sable/soot/pull/261" target="_blank">2</a>, and 
+      <a href="https://github.com/Sable/soot/pull/260" target="_blank">3</a> </li>
+		<li>WildFly: <a href="https://github.com/wildfly/wildfly/pull/7370" target="_blank">pull request</a></li>
+		<li>Apache Flume: <a href="https://github.com/apache/flume/pull/17" target="_blank">pull request</a></li>
 		</ul>
 	During the development of Bixie we also found a case where the Java compiler generates
 	unreachable bytecode (see <a href="http://stackoverflow.com/questions/25615417/try-with-resources-introduce-unreachable-bytecode" target="_blank">here</a>).
