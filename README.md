@@ -44,7 +44,7 @@ To check if everything is working, run Bixie on itself:
 	cd build/libs/
 	java -jar bixie.jar -j ../classes/main/
 
-#### Bixie runner:
+#### Bixie runner
 For your convenience, there is a Python script (runner/runner.py) that will automatically determine what classpaths to use and where class files are generated, and then invoke Bixie. It works for projects built with ant, maven, or gradle. For example:
 
 	cd <path-to-project>
