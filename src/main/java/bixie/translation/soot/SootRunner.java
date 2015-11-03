@@ -241,8 +241,7 @@ public class SootRunner {
 				}
 				if (sc.isApplicationClass()) {					
 					for (SootMethod sm : sc.getMethods()) {
-						if (sm.isConcrete()) {
-							Log.info("Analyzing "+ sm.getBytecodeSignature());
+						if (sm.isConcrete()) {							
 							try {
 								Body body = sm.retrieveActiveBody();
 								sm.setActiveBody(body);

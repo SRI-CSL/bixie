@@ -85,7 +85,7 @@ public class FmsdUnwinding extends AbstractLoopUnwinding {
 		}
 		
 		if (loop.loopExit.size()==0 && bixie.Options.v().getDebugMode()) {
-			Log.error("Loop has no exit! LoopHead "+loop.loopHead.getLabel());
+			Log.debug("Loop has no exit! LoopHead "+loop.loopHead.getLabel());
 		}
 		
 		unwind(loop,0);

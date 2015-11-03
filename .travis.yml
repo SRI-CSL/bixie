@@ -1,6 +1,11 @@
 language: java
 sudo: false
 
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
+
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created

@@ -9,6 +9,8 @@ import java.lang.ProcessBuilder.Redirect;
 
 import org.junit.AfterClass;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 /**
  * Abstract class for all test cases that detect inconsistent code.
  * 
@@ -21,7 +23,7 @@ public class AbstractIcTest {
 			+ "/";
 	protected static final String testRoot = userDir + "src/test/resources/";
 
-	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "DM_DEFAULT_ENCODING")
+	@SuppressWarnings(value = "DM_DEFAULT_ENCODING")
 	protected String fileToString(File f) {
 		StringBuffer sb = new StringBuffer();
 		try (FileReader fileRead = new FileReader(f);
@@ -40,7 +42,7 @@ public class AbstractIcTest {
 		return sb.toString();
 	}
 
-	@edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "DM_DEFAULT_ENCODING")
+	@SuppressWarnings(value = "DM_DEFAULT_ENCODING")
 	protected boolean compareFiles(File out, File gold) {
 		try (FileReader fR1 = new FileReader(out);
 				FileReader fR2 = new FileReader(gold);

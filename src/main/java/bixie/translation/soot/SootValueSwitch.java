@@ -512,7 +512,7 @@ public class SootValueSwitch implements JimpleValueSwitch {
 					this.pf.getBoolType(), BinaryOperator.LOGICAND, isNonNull,
 					isSubtype));
 		} else {
-			Log.error("instanceof for arrays not implemented");
+			Log.debug("instanceof for arrays not implemented");
 			this.expressionStack.push(createHavocedExpression(GlobalsCache.v()
 					.getBoogieType(arg0.getType())));
 		}

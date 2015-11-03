@@ -114,9 +114,10 @@ public class Main {
 
 	public ReportPrinter translateAndRun(String input, String classpath,
 			ReportPrinter reportPrinter) {
-		bixie.util.Log.info("Translating");
+		bixie.util.Log.info("Translating. This may take a while.");
 		bixie.translation.Main.setClassPath(classpath);
 		ProgramFactory pf = bixie.translation.Main.run(input);
+		bixie.util.Log.info("... translation finished.");
 		if (pf == null) {
 			bixie.util.Log.error("Internal Error: Parsing failed");
 			return null;

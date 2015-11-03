@@ -106,8 +106,7 @@ public class Report {
 					this.faultExplanations.get(severity).add(new FaultExplanation(lines));
 				}
 			}			
-		} catch (TimeoutException e) {
-			Log.error("fault localization timeout.");
+		} catch (TimeoutException e) {			
 			throw e;
 		} catch (OutOfMemoryError e) {
 			throw e;

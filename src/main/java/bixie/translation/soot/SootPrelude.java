@@ -253,7 +253,7 @@ public class SootPrelude {
 							.mkFunctionDeclaration(attributes,
 									"$realOp" + op.hashCode(), in, outParam,
 									null));
-			Log.error("Created function that should be in Prelude: " + op);
+			Log.debug("Created function that should be in Prelude: " + op);
 		}
 		return this.realOperators.get(op);
 	}

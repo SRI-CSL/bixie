@@ -40,7 +40,14 @@ public class ProgramAnalysis {
 		Long checkTime = System.currentTimeMillis();
 		
 
+		final long totalProcedures = (long)cff.getProcedureCFGs().size();
+		long counter = 0L;
+		
+		
 		for (CfgProcedure p : cff.getProcedureCFGs()) {
+			counter += 1;
+			updateProgress((double)counter/(double)totalProcedures);
+			
 			if (p.getRootNode() == null)
 				continue;
 
@@ -70,6 +77,22 @@ public class ProgramAnalysis {
 
 		GlobalsCache.resetInstance();		
 	}
+	
+	  private static void updateProgress(double progressPercentage) {
+		    final int width = 50; // progress bar width in chars
+
+		    System.out.print("\r[");
+		    int i = 0;
+		    for (; i <= (int)(progressPercentage*width); i++) {
+		      System.out.print(".");
+		    }
+		    for (; i < width; i++) {
+		      System.out.print(" ");
+		    }
+		    System.out.print("]");
+		  }
+
+	
 	
 	private static AbstractChecker getChecker(AbstractControlFlowFactory cff,
 			CfgProcedure p) {

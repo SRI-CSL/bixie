@@ -188,7 +188,7 @@ public abstract class AbstractLoopUnwinding {
 //		}
 		
 		if (mustReach.get(loop.loopHead)==null) {
-			Log.error("Could not compute the dominator relation for loop at "+loop.loopHead.getLabel());
+			Log.debug("Could not compute the dominator relation for loop at "+loop.loopHead.getLabel());
 			return new HashSet<BasicBlock>();
 		}
 		
@@ -260,7 +260,7 @@ public abstract class AbstractLoopUnwinding {
 		// now redirect all back edges to the original loop head.
 		for (BasicBlock b : loop.loopingPred) {
 			if (!clonemap.containsKey(b)) {
-				Log.error("something fishy with that loop!");
+				Log.debug("something fishy with that loop!");
 				continue;
 			}
 			BasicBlock clone = clonemap.get(b);

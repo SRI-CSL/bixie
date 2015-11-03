@@ -50,7 +50,7 @@ public class AssignmentTranslation {
 				nmae.getSize(i).apply(valueswitch);
 				// Expression sizeexp = valueswitch.getExpression();
 				// TODO
-				Log.error("Mulit-arrays are not implemented!");
+				Log.debug("Mulit-arrays are not implemented!");
 			}
 			right = GlobalsCache.v().makeFreshGlobal(
 					SootPrelude.v().getReferenceType(), true, true);

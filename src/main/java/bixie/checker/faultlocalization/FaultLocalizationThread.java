@@ -129,7 +129,7 @@ public class FaultLocalizationThread implements Runnable {
 				getSubprog(component), tr.getProcedure().getRootNode());
 
 		if (slice.getRootNode() == null) {
-			Log.error("Cannot construct slice for " + tr.getProcedureName());
+			Log.debug("Cannot construct slice for " + tr.getProcedureName());
 			// tr.getProcedure().toDot("DEBUG_"+tr.getProcedureName()+".dot");
 			// tr.getProcedure().toFile("DEBUG_"+tr.getProcedureName()+".bpl");
 			return new HashMap<CfgStatement, SourceLocation>();
