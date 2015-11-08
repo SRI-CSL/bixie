@@ -8,26 +8,26 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import util.Log;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.CfgVariable;
-import boogie.controlflow.expression.CfgArrayAccessExpression;
-import boogie.controlflow.expression.CfgArrayStoreExpression;
-import boogie.controlflow.expression.CfgBinaryExpression;
-import boogie.controlflow.expression.CfgBitVectorAccessExpression;
-import boogie.controlflow.expression.CfgExpression;
-import boogie.controlflow.expression.CfgFunctionApplication;
-import boogie.controlflow.expression.CfgIdentifierExpression;
-import boogie.controlflow.expression.CfgIfThenElseExpression;
-import boogie.controlflow.expression.CfgQuantifierExpression;
-import boogie.controlflow.expression.CfgUnaryExpression;
-import boogie.controlflow.statement.CfgAssertStatement;
-import boogie.controlflow.statement.CfgAssignStatement;
-import boogie.controlflow.statement.CfgAssumeStatement;
-import boogie.controlflow.statement.CfgCallStatement;
-import boogie.controlflow.statement.CfgHavocStatement;
-import boogie.controlflow.statement.CfgStatement;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.CfgVariable;
+import bixie.boogie.controlflow.expression.CfgArrayAccessExpression;
+import bixie.boogie.controlflow.expression.CfgArrayStoreExpression;
+import bixie.boogie.controlflow.expression.CfgBinaryExpression;
+import bixie.boogie.controlflow.expression.CfgBitVectorAccessExpression;
+import bixie.boogie.controlflow.expression.CfgExpression;
+import bixie.boogie.controlflow.expression.CfgFunctionApplication;
+import bixie.boogie.controlflow.expression.CfgIdentifierExpression;
+import bixie.boogie.controlflow.expression.CfgIfThenElseExpression;
+import bixie.boogie.controlflow.expression.CfgQuantifierExpression;
+import bixie.boogie.controlflow.expression.CfgUnaryExpression;
+import bixie.boogie.controlflow.statement.CfgAssertStatement;
+import bixie.boogie.controlflow.statement.CfgAssignStatement;
+import bixie.boogie.controlflow.statement.CfgAssumeStatement;
+import bixie.boogie.controlflow.statement.CfgCallStatement;
+import bixie.boogie.controlflow.statement.CfgHavocStatement;
+import bixie.boogie.controlflow.statement.CfgStatement;
+import bixie.util.Log;
 
 /**
  * @author schaef

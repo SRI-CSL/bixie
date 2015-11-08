@@ -3,11 +3,11 @@
  */
 package bixie.checker.reportprinter;
 
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.NamedAttribute;
-import boogie.ast.expression.literal.IntegerLiteral;
-import boogie.ast.expression.literal.StringLiteral;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.NamedAttribute;
+import bixie.boogie.ast.expression.literal.IntegerLiteral;
+import bixie.boogie.ast.expression.literal.StringLiteral;
 
 /**
  * @author schaef

@@ -53,6 +53,15 @@ public class Options {
 	@Option(name = "-cp", usage = "Classpath")
 	private String classpath="";
 
+	/**
+	 * Classpath
+	 */
+	@Option(name = "-html", usage = "Html output directory")
+	private String htmlDir=null;
+	public String getHtmlDir() {
+		return htmlDir;
+	}
+
 	
 	/**
 	 * Classpath

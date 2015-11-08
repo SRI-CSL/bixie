@@ -1,6 +1,5 @@
 package bixie.prover.princess;
 
-import scala.collection.mutable.ArrayBuffer;
 import ap.basetypes.IdealInt$;
 import ap.parser.IExpression$;
 import ap.parser.IFunApp;
@@ -11,6 +10,7 @@ import ap.parser.ITermITE;
 import bixie.prover.ProverExpr;
 import bixie.prover.ProverFun;
 import bixie.prover.ProverType;
+import scala.collection.mutable.ArrayBuffer;
 
 class PrincessFun implements ProverFun {
 

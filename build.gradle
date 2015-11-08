@@ -69,7 +69,6 @@ buildscript {
 
     dependencies {
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
-        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:latest.release'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
 }
@@ -112,8 +111,10 @@ jar.dependsOn shadowJar
 
 // testing related activities -----------------
 tasks.withType(FindBugs) {
-    effort = "default"
+    effort = "max"
     reportLevel = "medium"
+    
+	findbugs.excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
 
     reports {
         xml.enabled = false

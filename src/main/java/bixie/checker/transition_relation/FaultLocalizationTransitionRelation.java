@@ -5,15 +5,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.expression.CfgExpression;
+import bixie.boogie.controlflow.statement.CfgStatement;
+import bixie.boogie.controlflow.util.HasseDiagram;
+import bixie.boogie.controlflow.util.PartialBlockOrderNode;
 import bixie.prover.Prover;
 import bixie.prover.ProverExpr;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.expression.CfgExpression;
-import boogie.controlflow.statement.CfgStatement;
-import boogie.controlflow.util.HasseDiagram;
-import boogie.controlflow.util.PartialBlockOrderNode;
 
 /**
  * @author schaef TODO: if we plan to do interprocedural analysis, we have to

@@ -21,6 +21,20 @@ package bixie.translation.soot;
 
 import java.util.LinkedList;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.declaration.FunctionDeclaration;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
+import bixie.boogie.enums.UnaryOperator;
+import bixie.boogie.type.BoogieType;
+import bixie.translation.GlobalsCache;
+import bixie.translation.Options;
+import bixie.translation.util.CustomNullnessAnalysis;
+import bixie.translation.util.MhpInfo;
+import bixie.util.Log;
 import soot.ArrayType;
 import soot.DoubleType;
 import soot.FloatType;
@@ -77,20 +91,6 @@ import soot.jimple.ThisRef;
 import soot.jimple.UshrExpr;
 import soot.jimple.VirtualInvokeExpr;
 import soot.jimple.XorExpr;
-import bixie.translation.GlobalsCache;
-import bixie.translation.Options;
-import bixie.translation.util.CustomNullnessAnalysis;
-import bixie.translation.util.MhpInfo;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.declaration.FunctionDeclaration;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
-import boogie.enums.UnaryOperator;
-import boogie.type.BoogieType;
 
 /**
  * @author schaef

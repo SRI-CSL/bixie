@@ -6,8 +6,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import typechecker.TypeChecker;
 import bixie.Options;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.DefaultControlFlowFactory;
+import bixie.boogie.typechecker.TypeChecker;
 import bixie.checker.inconsistency_checker.AbstractChecker;
 import bixie.checker.inconsistency_checker.CdcChecker;
 import bixie.checker.inconsistency_checker.CombinedChecker;
@@ -15,10 +19,6 @@ import bixie.checker.inconsistency_checker.GreedyCfgChecker;
 import bixie.checker.report.Report;
 import bixie.checker.reportprinter.ReportPrinter;
 import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.DefaultControlFlowFactory;
 
 /**
  * @author schaef

@@ -4,18 +4,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import util.Log;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.CfgVariable;
-import boogie.controlflow.expression.CfgExpression;
-import boogie.controlflow.expression.CfgIdentifierExpression;
-import boogie.controlflow.statement.CfgAssignStatement;
-import boogie.controlflow.statement.CfgCallStatement;
-import boogie.controlflow.statement.CfgHavocStatement;
-import boogie.controlflow.statement.CfgStatement;
-import boogie.controlflow.util.LoopDetection;
-import boogie.controlflow.util.LoopInfo;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.CfgVariable;
+import bixie.boogie.controlflow.expression.CfgExpression;
+import bixie.boogie.controlflow.expression.CfgIdentifierExpression;
+import bixie.boogie.controlflow.statement.CfgAssignStatement;
+import bixie.boogie.controlflow.statement.CfgCallStatement;
+import bixie.boogie.controlflow.statement.CfgHavocStatement;
+import bixie.boogie.controlflow.statement.CfgStatement;
+import bixie.boogie.controlflow.util.LoopDetection;
+import bixie.boogie.controlflow.util.LoopInfo;
+import bixie.util.Log;
 
 /**
  * @author schaef
@@ -57,7 +57,7 @@ public class FmsdUnwinding extends AbstractLoopUnwinding {
 			havocLoop(nest);
 		}
 		loop.refreshLoopBody(); //TODO: test
-		loop.UpdateLoopEntries();
+		loop.updateLoopEntries();
 
 		//TOOD: recompute the loop info because the body has changed		
 		this.maxUnwinding=1;
