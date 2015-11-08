@@ -23,6 +23,13 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.type.BoogieType;
+import bixie.translation.GlobalsCache;
 import soot.Local;
 import soot.Scene;
 import soot.SootClass;
@@ -37,13 +44,6 @@ import soot.tagkit.LineNumberTag;
 import soot.tagkit.SourceFileTag;
 import soot.tagkit.SourceLnNamePosTag;
 import soot.tagkit.Tag;
-import bixie.translation.GlobalsCache;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.type.BoogieType;
 
 /**
  * @author schaef

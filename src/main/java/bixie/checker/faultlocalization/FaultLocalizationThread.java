@@ -11,7 +11,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import util.Log;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.NamedAttribute;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgAxiom;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.statement.CfgStatement;
 import bixie.checker.reportprinter.SourceLocation;
 import bixie.checker.transition_relation.AbstractTransitionRelation;
 import bixie.checker.transition_relation.FaultLocalizationTransitionRelation;
@@ -20,13 +26,7 @@ import bixie.prover.ProverExpr;
 import bixie.prover.ProverFactory;
 import bixie.prover.ProverResult;
 import bixie.transformation.SingleStaticAssignment;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.NamedAttribute;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgAxiom;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.statement.CfgStatement;
+import bixie.util.Log;
 
 /**
  * @author schaef

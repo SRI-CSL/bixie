@@ -6,20 +6,20 @@ package bixie.translation.errormodel;
 import java.util.LinkedList;
 import java.util.List;
 
-import soot.Scene;
-import soot.SootClass;
-import soot.Trap;
-import soot.jimple.Stmt;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
 import bixie.translation.GlobalsCache;
 import bixie.translation.soot.SootPrelude;
 import bixie.translation.soot.SootProcedureInfo;
 import bixie.translation.soot.SootStmtSwitch;
 import bixie.translation.soot.TranslationHelpers;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
+import soot.Scene;
+import soot.SootClass;
+import soot.Trap;
+import soot.jimple.Stmt;
 
 /**
  * @author schaef

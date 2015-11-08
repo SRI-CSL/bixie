@@ -5,14 +5,19 @@ package bixie.checker.inconsistency_checker;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.LinkedHashSet;
 
 import org.joogie.cfgPlugin.Util.Dag;
 
 import ap.parser.IFormula;
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgAxiom;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.util.PartialBlockOrderNode;
 import bixie.checker.report.Report;
 import bixie.checker.transition_relation.TransitionRelation;
 import bixie.prover.Prover;
@@ -20,11 +25,6 @@ import bixie.prover.ProverExpr;
 import bixie.prover.ProverResult;
 import bixie.prover.princess.PrincessProver;
 import bixie.util.Log;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgAxiom;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.util.PartialBlockOrderNode;
 
 /**
  * @author schaef Inconsistent code detection algorithm that uses an abstract

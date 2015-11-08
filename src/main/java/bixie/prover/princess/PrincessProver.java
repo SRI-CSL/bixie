@@ -10,12 +10,6 @@ import java.util.LinkedList;
 import org.joogie.cfgPlugin.CFGPlugin;
 import org.joogie.cfgPlugin.Util.Dag;
 
-import scala.collection.Iterator;
-import scala.collection.JavaConversions;
-import scala.collection.Seq;
-import scala.collection.immutable.List;
-import scala.collection.immutable.Set;
-import scala.collection.mutable.ArrayBuffer;
 import ap.SimpleAPI;
 import ap.SimpleAPI.ProverStatus$;
 import ap.basetypes.IdealInt$;
@@ -49,6 +43,12 @@ import bixie.prover.ProverListener;
 import bixie.prover.ProverResult;
 import bixie.prover.ProverType;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import scala.collection.Iterator;
+import scala.collection.JavaConversions;
+import scala.collection.Seq;
+import scala.collection.immutable.List;
+import scala.collection.immutable.Set;
+import scala.collection.mutable.ArrayBuffer;
 
 
 public class PrincessProver implements Prover {

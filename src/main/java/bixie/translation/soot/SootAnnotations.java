@@ -5,7 +5,7 @@ package bixie.translation.soot;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import bixie.util.Log;
 import soot.SootField;
 import soot.SootMethod;
 import soot.tagkit.AnnotationTag;
@@ -15,7 +15,6 @@ import soot.tagkit.StringConstantValueTag;
 import soot.tagkit.Tag;
 import soot.tagkit.VisibilityAnnotationTag;
 import soot.tagkit.VisibilityParameterAnnotationTag;
-import util.Log;
 
 /**
  * @author schaef

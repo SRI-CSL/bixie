@@ -7,21 +7,20 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import bixie.Options;
-
-import util.Log;
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgProcedure;
 import bixie.checker.report.Report;
 import bixie.checker.transition_relation.TransitionRelation;
 import bixie.prover.Prover;
 import bixie.prover.ProverExpr;
 import bixie.prover.ProverResult;
 import bixie.prover.princess.PrincessProver;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgProcedure;
+import bixie.util.Log;
 
 /**
  * @author schaef

@@ -33,12 +33,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import bixie.translation.Options;
+import bixie.util.Log;
 import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
-import bixie.translation.Options;
-import bixie.util.Log;
 
 /**
  * The Soot Runner

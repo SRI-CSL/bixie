@@ -3,7 +3,7 @@
  */
 package bixie.checker;
 
-import boogie.ProgramFactory;
+import bixie.boogie.ProgramFactory;
 
 /**
  * @author schaef
