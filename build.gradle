@@ -102,7 +102,7 @@ jar {
                    'Implementation-Version': version
     }
 
-    from('src/main/resorces'){ include('log4j.properties')}
+  //  from('src/main/resources'){ include('log4j.properties')}
 
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }

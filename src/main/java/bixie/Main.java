@@ -64,7 +64,7 @@ public class Main {
 			bixie.util.Log.error(e.toString());
 			parser.printUsage(System.err);
 		} catch (Throwable e) {
-			bixie.util.Log.error(e.toString());
+			Log.error("bixie failed: "+ e.toString());
 		}
 	}
 
