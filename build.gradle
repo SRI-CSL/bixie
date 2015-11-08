@@ -91,23 +91,33 @@ dependencies {
 
 
 // building the jar ---------------------
+
 jar {
   println("WARNING: jar does not create an executable jar. Use shadowJar instead.")
-  baseName = 'bixie'
+  	baseName = 'bixie'
 
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    
+    from('src/main/resources'){ include('log4j.properties')}
+  	from('src/main/resources'){ include('basic_prelude.bpl')}
+  	from('src/main/resources'){ include('java_lang.bpl')}
+
+    
+    
     manifest {
         attributes 'Main-Class': mainClassName,
                    'Class-Path': '.',
                    'Implementation-Title': 'Bixie',
                    'Implementation-Version': version
     }
-
-  //  from('src/main/resources'){ include('log4j.properties')}
-
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
-jar.dependsOn shadowJar
+shadowJar {
+  	append('src/main/resources/report_html.zip')
+}
+
+
+//jar.dependsOn shadowJar
 
 // testing related activities -----------------
 tasks.withType(FindBugs) {

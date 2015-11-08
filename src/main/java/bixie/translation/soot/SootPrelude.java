@@ -124,12 +124,10 @@ public class SootPrelude {
 	}
 
 	private void loadPreludeFromResources(String name) {
-		try {
-			InputStream stream = SootPrelude.class.getResourceAsStream(name);
+		try (InputStream stream = SootPrelude.class.getResourceAsStream(name);) {
 			GlobalsCache.v().getPf().importBoogieFile(name, stream);
-			stream.close();
-
-		} catch (Exception e1) {
+		} catch (Exception e) {
+			Log.error("You have to build a fat jar for bixie. Could not load resources: "+e.toString());
 			throw new RuntimeException(
 					"Prelude file not available. Something failed during the build!");
 		}

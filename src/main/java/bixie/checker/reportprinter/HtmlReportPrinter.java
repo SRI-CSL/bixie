@@ -256,7 +256,7 @@ public class HtmlReportPrinter implements ReportPrinter {
 	 * and copies them into the report folder.
 	 */
 	private void extractHtmlBoilerplate() {
-		try (InputStream is = getClass().getResourceAsStream("/report_html.zip");
+		try (InputStream is = getClass().getResourceAsStream("/report_html.pack");
 				ZipInputStream zis = new ZipInputStream(is);) {
 			ZipEntry entry;
 
