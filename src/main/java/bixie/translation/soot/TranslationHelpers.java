@@ -19,10 +19,12 @@
 
 package bixie.translation.soot;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.Options;
 import bixie.boogie.ProgramFactory;
 import bixie.boogie.ast.Attribute;
 import bixie.boogie.ast.expression.Expression;
@@ -30,6 +32,7 @@ import bixie.boogie.ast.expression.IdentifierExpression;
 import bixie.boogie.ast.statement.Statement;
 import bixie.boogie.type.BoogieType;
 import bixie.translation.GlobalsCache;
+import bixie.util.Log;
 import soot.Local;
 import soot.Scene;
 import soot.SootClass;
@@ -167,8 +170,25 @@ public class TranslationHelpers {
 			} else if (t_ instanceof SourceLnNamePosTag) {
 				filename = ((SourceLnNamePosTag) t_).getFileName();
 				// don't break, mybe there is still a source file tag.
+				
 			}
 		}
+		File srcFile = new File(filename);
+				
+		if (!srcFile.exists() && Options.v().getSrcDir()!=null) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(Options.v().getSrcDir());
+			sb.append(File.separator);
+			sb.append(sc.getPackageName().replace(".", File.separator));
+			sb.append(File.separator);
+			sb.append(filename);
+			srcFile = new File(sb.toString());
+			if (!srcFile.exists()) {
+				Log.error("Source file not found: "+srcFile.getAbsolutePath() + ".\nCheck your settings.");
+			}
+			filename = srcFile.getAbsolutePath();
+		}
+
 		return filename;
 	}
 

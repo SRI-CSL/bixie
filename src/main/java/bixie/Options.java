@@ -54,12 +54,21 @@ public class Options {
 	private String classpath="";
 
 	/**
-	 * Classpath
+	 * Report output
 	 */
 	@Option(name = "-html", usage = "Html output directory")
 	private String htmlDir=null;
 	public String getHtmlDir() {
 		return htmlDir;
+	}
+
+	/**
+	 * Location of the source files for reporting.
+	 */
+	@Option(name = "-src", usage = "location of the source code directory")
+	private String srcDir=null;
+	public String getSrcDir() {
+		return srcDir;
 	}
 
 	
