@@ -103,6 +103,7 @@ public class GlobalsCache {
 	
 	public static void resetInstance() {
 		if (instance != null) {
+			TranslationHelpers.reset();
 			GlobalsCache.instance.procedureMap.clear();
 			GlobalsCache.instance.fieldMap.clear();
 			GlobalsCache.instance.unitLabelMap.clear();

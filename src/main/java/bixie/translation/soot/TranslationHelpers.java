@@ -20,9 +20,11 @@
 package bixie.translation.soot;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import bixie.Options;
 import bixie.boogie.ProgramFactory;
@@ -175,22 +177,42 @@ public class TranslationHelpers {
 		}
 		File srcFile = new File(filename);
 				
-		if (!srcFile.exists() && Options.v().getSrcDir()!=null) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(Options.v().getSrcDir());
-			sb.append(File.separator);
-			sb.append(sc.getPackageName().replace(".", File.separator));
-			sb.append(File.separator);
-			sb.append(filename);
-			srcFile = new File(sb.toString());
-			if (!srcFile.exists()) {
-				Log.error("Source file not found: "+srcFile.getAbsolutePath() + ".\nCheck your settings.");
+		if (!srcFile.exists() && Options.v().getSrcFilesString()!=null) {
+			final String expectedName = sc.getPackageName().replace(".", File.separator) + File.separator + filename;
+			srcFile = findSourceFile(expectedName);
+			if (srcFile==null || !srcFile.exists()) {
+				Log.error("Source file not found: "+srcFile + ".\nCheck your settings.");
+			} else {
+				filename = srcFile.getAbsolutePath();
 			}
-			filename = srcFile.getAbsolutePath();
 		}
 
 		return filename;
 	}
+
+	public static void reset() {
+		sourceFiles.clear();
+	}
+	
+	private static Map<String, File> sourceFiles = new HashMap<String,File>();
+
+	private static File findSourceFile(String expectedName) {
+		if (!sourceFiles.containsKey(expectedName)) {
+			File f = null;
+			for (String s: Options.v().getSrcFilesString()) {
+				if (s.contains(expectedName)) {
+					f = new File(s);
+					if (!f.exists()) {
+						throw new RuntimeException("Bug");
+					}
+					break;
+				}
+			}
+			sourceFiles.put(expectedName, f);
+		}
+		return sourceFiles.get(expectedName);
+	}
+	
 
 	public static Statement createClonedAttribAssert() {
 		ProgramFactory pf = GlobalsCache.v().getPf();
