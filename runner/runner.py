@@ -13,15 +13,19 @@ def analyze_project(args, javac_commands):
   for command in javac_commands:
     switches = command['javac_switches']
     classpath = base_path = switches['d']
-
+    
     if 'cp' in switches:
       classpath = switches['cp']
     if 'classpath' in switches:
       classpath = switches['classpath']
 
     bixie_command = ['java', '-jar', args.jar,
+                     '-html', 'bixie_report',
                      '-j', base_path,
                      '-cp', classpath]
+
+    if 'sourcepath' in switches:
+      bixie_command.extend(['-src', switches['sourcepath']])
 
     if args.output_directory:
       out_filename = os.path.join(args.output_directory, "report-%d.log" % i)
