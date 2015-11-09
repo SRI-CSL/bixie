@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import bixie.translation.Options;
+import bixie.util.Log;
 import soot.Scene;
 import soot.SootField;
 import soot.SootMethod;
@@ -17,8 +19,6 @@ import soot.jimple.toolkits.pointer.RWSet;
 import soot.jimple.toolkits.thread.AbstractRuntimeThread;
 import soot.jimple.toolkits.thread.mhp.MhpTester;
 import soot.jimple.toolkits.thread.mhp.MhpTransformer;
-import bixie.translation.Options;
-import bixie.util.Log;
 
 /**
  * @author schaef

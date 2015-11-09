@@ -10,7 +10,7 @@
 
 Check our the **[Online Demo](http://csl.sri.com/projects/bixie/)**.
 
-Bixie is a static analysis tool that detects inconsistencies in Java bytecode. An inconsistency occurs if code must throw an exception or is unreachable because because of assumptions made by other statements. 
+Bixie is a static analysis tool that detects inconsistencies in Java bytecode. An inconsistency occurs when code must throw an exception or is unreachable because because of assumptions made by other statements. 
 
 ##### Examples
 
@@ -27,10 +27,10 @@ In this example from Cassandra:
 		return identityDistribution.next() % 1 == 0;
 	}
 
-There is an inconsistency in the bytecode because the expression `identityDistribution.next() % 1 == 0` appears as a conditional choice in the bytecode where one case is unreachable because `identityDistribution.next() % 1` returns a constant value.
+There is an inconsistency in the bytecode because the expression `identityDistribution.next() % 1 == 0` appears as a conditional choice in the bytecode, and one case is unreachable because `identityDistribution.next() % 1` returns a constant value.
 
 
-#### Build instructions:
+#### Build instructions
 
 Bixie uses gradle to build:
 
@@ -38,17 +38,20 @@ Bixie uses gradle to build:
 	cd bixie
     ./gradlew shadowJar
 
-#### Usage example:
+#### Usage example
 To check if everything is working, run Bixie on itself:
 
 	cd build/libs/
 	java -jar bixie.jar -j ../classes/main/
 
-#### Soundness remarks:
+#### Bixie runner
+For your convenience, there is a Python script (runner/runner.py) that will automatically determine what classpaths to use and where class files are generated, and then invoke Bixie. It works for projects built with ant, maven, or gradle. For example:
+
+	cd <path-to-project>
+	mvn clean
+	python <path-to-bixie>/runner/runner.py -- mvn compile
+
+This command will execute the maven build process for the project and scrape its output for instances where javac was called, then feed that information to Bixie. Be sure to clean before building, as the tool can only detect files that were actually compiled while it is observing.
+
+#### Soundness remarks
 Bixie is not sound. Many Java features, such as concurrency and reflection, are not handled by Bixie and may result in false alarms. Bixie also sometimes detects inconsistencies in the bytecode that have no corresponding inconsistency in the source code. For example, conditional choices with conjunctions in the condition sometimes raise false alarms.
-
-
-
-
-
-

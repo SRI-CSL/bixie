@@ -1,5 +1,11 @@
 package bixie.translation.soot;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.expression.ArrayAccessExpression;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.translation.GlobalsCache;
+import bixie.util.Log;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.InvokeExpr;
@@ -7,12 +13,6 @@ import soot.jimple.NewArrayExpr;
 import soot.jimple.NewExpr;
 import soot.jimple.NewMultiArrayExpr;
 import soot.jimple.StringConstant;
-import bixie.translation.GlobalsCache;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.expression.ArrayAccessExpression;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
 
 public class AssignmentTranslation {
 

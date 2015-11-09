@@ -21,18 +21,17 @@ package bixie.translation.soot;
 
 import java.io.InputStream;
 import java.util.HashMap;
-
-import util.Log;
+import bixie.util.Log;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.declaration.FunctionDeclaration;
+import bixie.boogie.ast.declaration.ProcedureDeclaration;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.type.BoogieType;
+import bixie.boogie.type.ConstructedType;
 import bixie.translation.GlobalsCache;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.declaration.FunctionDeclaration;
-import boogie.ast.declaration.ProcedureDeclaration;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.type.BoogieType;
-import boogie.type.ConstructedType;
 
 /**
  * @author schaef
@@ -125,12 +124,10 @@ public class SootPrelude {
 	}
 
 	private void loadPreludeFromResources(String name) {
-		try {
-			InputStream stream = SootPrelude.class.getResourceAsStream(name);
+		try (InputStream stream = SootPrelude.class.getResourceAsStream(name);) {
 			GlobalsCache.v().getPf().importBoogieFile(name, stream);
-			stream.close();
-
-		} catch (Exception e1) {
+		} catch (Exception e) {
+			Log.error("You have to build a fat jar for bixie. Could not load resources: "+e.toString());
 			throw new RuntimeException(
 					"Prelude file not available. Something failed during the build!");
 		}

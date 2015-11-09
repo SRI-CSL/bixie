@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import util.Log;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.expression.CfgBooleanLiteral;
+import bixie.boogie.controlflow.statement.CfgAssertStatement;
+import bixie.boogie.controlflow.util.LoopInfo;
 import bixie.checker.GlobalsCache;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.expression.CfgBooleanLiteral;
-import boogie.controlflow.statement.CfgAssertStatement;
-import boogie.controlflow.util.LoopInfo;
+import bixie.util.Log;
 
 /**
  * @author schaef
@@ -219,7 +219,7 @@ public abstract class AbstractLoopUnwinding {
 		// clone the loopbody
 		BasicBlock cloneHead = null;
 		for (BasicBlock b : loop.loopBody) {
-			BasicBlock clone = b.clone("iter"
+			BasicBlock clone = b.duplicate("iter"
 					+ (this.maxUnwinding - unwindings));
 			if (b == loop.loopHead) {
 				cloneHead = clone;
@@ -268,7 +268,7 @@ public abstract class AbstractLoopUnwinding {
 			clone.connectToSuccessor(loop.loopHead);
 		}
 
-		loop.UpdateLoopEntries();
+		loop.updateLoopEntries();
 
 		unwind(loop, unwindings - 1);
 	}

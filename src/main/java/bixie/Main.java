@@ -11,11 +11,12 @@ import java.io.PrintWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
+import bixie.boogie.ProgramFactory;
 import bixie.checker.ProgramAnalysis;
 import bixie.checker.reportprinter.BasicReportPrinter;
+import bixie.checker.reportprinter.HtmlReportPrinter;
 import bixie.checker.reportprinter.ReportPrinter;
 import bixie.util.Log;
-import boogie.ProgramFactory;
 
 /**
  * @author schaef
@@ -63,7 +64,7 @@ public class Main {
 			bixie.util.Log.error(e.toString());
 			parser.printUsage(System.err);
 		} catch (Throwable e) {
-			bixie.util.Log.error(e.toString());
+			Log.error("bixie failed: "+ e.toString());
 		}
 	}
 
@@ -108,8 +109,33 @@ public class Main {
 		}
 	}
 
+	private ReportPrinter reportPrinter = null;
+	
+	protected ReportPrinter getReportPrinter() {
+		if (reportPrinter==null) {
+			if (bixie.Options.v().getHtmlDir()!=null) {
+				File dir = new File(bixie.Options.v().getHtmlDir());
+				if (!dir.exists() || !dir.isDirectory()) {
+					try {
+						if (!dir.mkdir()) {
+							throw new RuntimeException("Failed to generate folder for HTML output at "+dir+". Using command line output instead.");	
+						} 
+					} catch (Throwable t) {
+						Log.error(t);						
+						reportPrinter = new BasicReportPrinter();							
+						return reportPrinter;
+					}
+				}
+				reportPrinter = new HtmlReportPrinter(dir);
+			} else {
+				reportPrinter = new BasicReportPrinter();
+			}
+		}
+		return reportPrinter;
+	}
+	
 	public ReportPrinter translateAndRun(String input, String classpath) {
-		return translateAndRun(input, classpath, new BasicReportPrinter());
+		return translateAndRun(input, classpath, getReportPrinter());
 	}
 
 	public ReportPrinter translateAndRun(String input, String classpath,
@@ -127,7 +153,7 @@ public class Main {
 	}
 
 	public ReportPrinter runChecker(ProgramFactory pf) {
-		return runChecker(pf, new BasicReportPrinter());
+		return runChecker(pf, getReportPrinter());
 	}
 
 	public ReportPrinter runChecker(ProgramFactory pf,

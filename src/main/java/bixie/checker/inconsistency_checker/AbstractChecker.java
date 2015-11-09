@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import bixie.Options;
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgAxiom;
+import bixie.boogie.controlflow.CfgProcedure;
 import bixie.checker.report.Report;
 import bixie.checker.transition_relation.AbstractTransitionRelation;
 import bixie.prover.Prover;
@@ -20,10 +24,6 @@ import bixie.prover.ProverFactory;
 import bixie.transformation.CallUnwinding;
 import bixie.transformation.SingleStaticAssignment;
 import bixie.transformation.loopunwinding.AbstractLoopUnwinding;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgAxiom;
-import boogie.controlflow.CfgProcedure;
 
 /**
  * @author schaef

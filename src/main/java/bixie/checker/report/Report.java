@@ -16,15 +16,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import util.Log;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.NamedAttribute;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.statement.CfgStatement;
 import bixie.checker.faultlocalization.FaultLocalizationThread;
 import bixie.checker.reportprinter.SourceLocation;
 import bixie.checker.transition_relation.AbstractTransitionRelation;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.NamedAttribute;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.statement.CfgStatement;
 
 /**
  * @author schaef

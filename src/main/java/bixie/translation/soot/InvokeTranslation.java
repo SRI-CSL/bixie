@@ -7,6 +7,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.VarList;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
+import bixie.translation.GlobalsCache;
+import bixie.util.Log;
 import soot.Immediate;
 import soot.Scene;
 import soot.SootClass;
@@ -21,15 +30,6 @@ import soot.jimple.SpecialInvokeExpr;
 import soot.jimple.StaticInvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.VirtualInvokeExpr;
-import bixie.translation.GlobalsCache;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.VarList;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
 
 /**
  * @author schaef

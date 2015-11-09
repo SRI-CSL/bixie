@@ -16,41 +16,41 @@ import java.util.TreeMap;
 import org.joogie.cfgPlugin.CFGPlugin;
 import org.joogie.cfgPlugin.Util.Dag;
 
-import util.Log;
 import ap.parser.IFormula;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.controlflow.AbstractControlFlowFactory;
+import bixie.boogie.controlflow.BasicBlock;
+import bixie.boogie.controlflow.CfgAxiom;
+import bixie.boogie.controlflow.CfgFunction;
+import bixie.boogie.controlflow.CfgParentEdge;
+import bixie.boogie.controlflow.CfgProcedure;
+import bixie.boogie.controlflow.CfgVariable;
+import bixie.boogie.controlflow.expression.CfgArrayAccessExpression;
+import bixie.boogie.controlflow.expression.CfgArrayStoreExpression;
+import bixie.boogie.controlflow.expression.CfgBinaryExpression;
+import bixie.boogie.controlflow.expression.CfgBooleanLiteral;
+import bixie.boogie.controlflow.expression.CfgExpression;
+import bixie.boogie.controlflow.expression.CfgFunctionApplication;
+import bixie.boogie.controlflow.expression.CfgIdentifierExpression;
+import bixie.boogie.controlflow.expression.CfgIfThenElseExpression;
+import bixie.boogie.controlflow.expression.CfgIntegerLiteral;
+import bixie.boogie.controlflow.expression.CfgQuantifierExpression;
+import bixie.boogie.controlflow.expression.CfgUnaryExpression;
+import bixie.boogie.controlflow.statement.CfgAssertStatement;
+import bixie.boogie.controlflow.statement.CfgAssignStatement;
+import bixie.boogie.controlflow.statement.CfgAssumeStatement;
+import bixie.boogie.controlflow.statement.CfgHavocStatement;
+import bixie.boogie.controlflow.statement.CfgStatement;
+import bixie.boogie.controlflow.util.HasseDiagram;
+import bixie.boogie.type.ArrayType;
+import bixie.boogie.type.BoogieType;
 import bixie.checker.GlobalsCache;
 import bixie.prover.Prover;
 import bixie.prover.ProverExpr;
 import bixie.prover.ProverFun;
 import bixie.prover.ProverType;
 import bixie.prover.princess.PrincessProver;
-import boogie.ProgramFactory;
-import boogie.controlflow.AbstractControlFlowFactory;
-import boogie.controlflow.BasicBlock;
-import boogie.controlflow.CfgAxiom;
-import boogie.controlflow.CfgFunction;
-import boogie.controlflow.CfgParentEdge;
-import boogie.controlflow.CfgProcedure;
-import boogie.controlflow.CfgVariable;
-import boogie.controlflow.expression.CfgArrayAccessExpression;
-import boogie.controlflow.expression.CfgArrayStoreExpression;
-import boogie.controlflow.expression.CfgBinaryExpression;
-import boogie.controlflow.expression.CfgBooleanLiteral;
-import boogie.controlflow.expression.CfgExpression;
-import boogie.controlflow.expression.CfgFunctionApplication;
-import boogie.controlflow.expression.CfgIdentifierExpression;
-import boogie.controlflow.expression.CfgIfThenElseExpression;
-import boogie.controlflow.expression.CfgIntegerLiteral;
-import boogie.controlflow.expression.CfgQuantifierExpression;
-import boogie.controlflow.expression.CfgUnaryExpression;
-import boogie.controlflow.statement.CfgAssertStatement;
-import boogie.controlflow.statement.CfgAssignStatement;
-import boogie.controlflow.statement.CfgAssumeStatement;
-import boogie.controlflow.statement.CfgHavocStatement;
-import boogie.controlflow.statement.CfgStatement;
-import boogie.controlflow.util.HasseDiagram;
-import boogie.type.ArrayType;
-import boogie.type.BoogieType;
+import bixie.util.Log;
 
 /**
  * @author schaef
@@ -534,11 +534,11 @@ public class AbstractTransitionRelation {
 			}
 		} else if (e instanceof CfgUnaryExpression) {
 			CfgUnaryExpression exp = (CfgUnaryExpression) e;
-			if (exp.getOperator() == boogie.enums.UnaryOperator.ARITHNEGATIVE) {
+			if (exp.getOperator() == bixie.boogie.enums.UnaryOperator.ARITHNEGATIVE) {
 				return this.prover.mkMult(
 						expression2proverExpression(exp.getExpression(),
 								boundVariables), this.prover.mkLiteral(-1));
-			} else if (exp.getOperator() == boogie.enums.UnaryOperator.LOGICNEG) {
+			} else if (exp.getOperator() == bixie.boogie.enums.UnaryOperator.LOGICNEG) {
 				return this.prover.mkNot(expression2proverExpression(
 						exp.getExpression(), boundVariables));
 			} else {
@@ -561,41 +561,41 @@ public class AbstractTransitionRelation {
 				boundVariables);
 //		if (exp.getOperator() == boogie.enums.BinaryOperator.ARITHDIV) {
 //			return this.prover.mkTDiv(left, right);
-		if (exp.getOperator() == boogie.enums.BinaryOperator.ARITHMINUS) {
+		if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.ARITHMINUS) {
 			return this.prover.mkMinus(left, right);
 //		} else if (exp.getOperator() == boogie.enums.BinaryOperator.ARITHMOD) {
 //			return this.prover.mkTMod(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.ARITHMUL) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.ARITHMUL) {
 			return this.prover.mkMult(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.ARITHPLUS) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.ARITHPLUS) {
 			return this.prover.mkPlus(left, right);
 //		} else if (exp.getOperator() == boogie.enums.BinaryOperator.BITVECCONCAT) {
 //			throw new RuntimeException("BITVECCONCAT not imeplemented");
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPEQ) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPEQ) {
 			return this.prover.mkEq(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPGEQ) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPGEQ) {
 			return this.prover.mkGeq(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPGT) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPGT) {
 			return this.prover.mkGt(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPLEQ) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPLEQ) {
 			return this.prover.mkLeq(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPLT) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPLT) {
 			return this.prover.mkLt(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPNEQ) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPNEQ) {
 			return this.prover.mkNot(this.prover.mkEq(left, right));
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.COMPPO) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.COMPPO) {
 			ProverExpr[] args = { left, right };
 			ProverExpr pe = this.partialOrderOperator.mkExpr(args);			
 			return pe;
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.LOGICAND) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.LOGICAND) {
 			return this.prover.mkAnd(left, right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.LOGICIFF) {				
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.LOGICIFF) {				
 			ProverExpr l = this.prover.mkImplies(left, right);
 			ProverExpr r = this.prover.mkImplies(right, left);
 			return this.prover.mkAnd(l, r);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.LOGICIMPLIES) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.LOGICIMPLIES) {
 			return this.prover.mkOr(this.prover.mkNot(left), right);
-		} else if (exp.getOperator() == boogie.enums.BinaryOperator.LOGICOR) {
+		} else if (exp.getOperator() == bixie.boogie.enums.BinaryOperator.LOGICOR) {
 			return this.prover.mkOr(left, right);
 		} else {
 			throw new RuntimeException("Unknown binary operator: "

@@ -25,6 +25,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.declaration.Implementation;
+import bixie.boogie.ast.statement.ReturnStatement;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
+import bixie.translation.GlobalsCache;
+import bixie.util.Log;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.SootMethod;
@@ -47,14 +55,6 @@ import soot.tagkit.SourceLnNamePosTag;
 import soot.tagkit.Tag;
 import soot.toolkits.exceptions.UnitThrowAnalysis;
 import soot.toolkits.graph.ExceptionalUnitGraph;
-import bixie.translation.GlobalsCache;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.declaration.Implementation;
-import boogie.ast.statement.ReturnStatement;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
 
 /**
  * Boogie Body Transformer

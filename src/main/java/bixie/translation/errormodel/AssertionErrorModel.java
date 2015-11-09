@@ -3,14 +3,14 @@
  */
 package bixie.translation.errormodel;
 
-import soot.SootClass;
-import util.Log;
+import bixie.util.Log;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.statement.Statement;
 import bixie.translation.soot.SootProcedureInfo;
 import bixie.translation.soot.SootStmtSwitch;
 import bixie.translation.soot.TranslationHelpers;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.statement.Statement;
+import soot.SootClass;
 
 /**
  * @author schaef

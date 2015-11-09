@@ -22,6 +22,16 @@ package bixie.translation.soot;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
+import bixie.translation.GlobalsCache;
+import bixie.translation.errormodel.AbstractErrorModel;
+import bixie.translation.errormodel.AssertionErrorModel;
+import bixie.util.Log;
 import soot.ArrayType;
 import soot.Local;
 import soot.NullType;
@@ -51,16 +61,6 @@ import soot.jimple.Stmt;
 import soot.jimple.StmtSwitch;
 import soot.jimple.TableSwitchStmt;
 import soot.jimple.ThrowStmt;
-import bixie.translation.GlobalsCache;
-import bixie.translation.errormodel.AbstractErrorModel;
-import bixie.translation.errormodel.AssertionErrorModel;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
 
 /**
  * @author schaef

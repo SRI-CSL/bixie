@@ -19,6 +19,10 @@
 
 package bixie;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.kohsuke.args4j.Option;
 
 /**
@@ -52,6 +56,34 @@ public class Options {
 	 */
 	@Option(name = "-cp", usage = "Classpath")
 	private String classpath="";
+
+	/**
+	 * Report output
+	 */
+	@Option(name = "-html", usage = "Html output directory")
+	private String htmlDir=null;
+	public String getHtmlDir() {
+		return htmlDir;
+	}
+
+	/**
+	 * Location of the source files for reporting.
+	 */
+	@Option(name = "-src", usage = "List of all source files")
+	private String srcFilesString=null;
+	private Set<String> sourceFiles = null;
+	public Set<String> getSrcFilesString() {
+		if (srcFilesString!=null && sourceFiles==null) {
+			String[] files = srcFilesString.split(File.pathSeparator);
+			sourceFiles = new HashSet<String>();
+			if (files!=null) {
+				for (String s : files) {
+					sourceFiles.add(s);
+				}
+			}
+		}
+		return sourceFiles;
+	}
 
 	
 	/**

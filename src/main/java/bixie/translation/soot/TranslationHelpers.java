@@ -19,10 +19,22 @@
 
 package bixie.translation.soot;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import bixie.Options;
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.type.BoogieType;
+import bixie.translation.GlobalsCache;
+import bixie.util.Log;
 import soot.Local;
 import soot.Scene;
 import soot.SootClass;
@@ -37,13 +49,6 @@ import soot.tagkit.LineNumberTag;
 import soot.tagkit.SourceFileTag;
 import soot.tagkit.SourceLnNamePosTag;
 import soot.tagkit.Tag;
-import bixie.translation.GlobalsCache;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.type.BoogieType;
 
 /**
  * @author schaef
@@ -167,10 +172,47 @@ public class TranslationHelpers {
 			} else if (t_ instanceof SourceLnNamePosTag) {
 				filename = ((SourceLnNamePosTag) t_).getFileName();
 				// don't break, mybe there is still a source file tag.
+				
 			}
 		}
+		File srcFile = new File(filename);
+				
+		if (!srcFile.exists() && Options.v().getSrcFilesString()!=null) {
+			final String expectedName = sc.getPackageName().replace(".", File.separator) + File.separator + filename;
+			srcFile = findSourceFile(expectedName);
+			if (srcFile==null || !srcFile.exists()) {
+				Log.error("Source file not found: "+srcFile + ".\nCheck your settings.");
+			} else {
+				filename = srcFile.getAbsolutePath();
+			}
+		}
+
 		return filename;
 	}
+
+	public static void reset() {
+		sourceFiles.clear();
+	}
+	
+	private static Map<String, File> sourceFiles = new HashMap<String,File>();
+
+	private static File findSourceFile(String expectedName) {
+		if (!sourceFiles.containsKey(expectedName)) {
+			File f = null;
+			for (String s: Options.v().getSrcFilesString()) {
+				if (s.contains(expectedName)) {
+					f = new File(s);
+					if (!f.exists()) {
+						throw new RuntimeException("Bug");
+					}
+					break;
+				}
+			}
+			sourceFiles.put(expectedName, f);
+		}
+		return sourceFiles.get(expectedName);
+	}
+	
 
 	public static Statement createClonedAttribAssert() {
 		ProgramFactory pf = GlobalsCache.v().getPf();

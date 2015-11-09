@@ -22,11 +22,11 @@ package bixie.translation;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
+import bixie.boogie.ProgramFactory;
 import bixie.translation.soot.SootPrelude;
 import bixie.translation.soot.SootRunner;
 import bixie.translation.util.MhpInfo;
 import bixie.util.Log;
-import boogie.ProgramFactory;
 
 /**
  * Dispatcher
@@ -60,13 +60,7 @@ public class Main {
 			runSoot(input, output);
 		} catch (Exception e) {
 			Log.error(e.toString());
-		} finally {			
-			GlobalsCache.resetInstance();
-			SootPrelude.resetInstance();
-			MhpInfo.resetInstance();
-			Options.resetInstance();
-			soot.G.reset();
-		}
+		} 
 	}
 	
 	public static void setClassPath(String cp) {

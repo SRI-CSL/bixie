@@ -15,9 +15,9 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import util.Log;
 import bixie.checker.report.Report;
 import bixie.checker.report.Report.FaultExplanation;
+import bixie.util.Log;
 
 /**
  * @author schaef

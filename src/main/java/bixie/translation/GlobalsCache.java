@@ -22,6 +22,17 @@ package bixie.translation;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import bixie.boogie.ProgramFactory;
+import bixie.boogie.ast.Attribute;
+import bixie.boogie.ast.expression.Expression;
+import bixie.boogie.ast.expression.IdentifierExpression;
+import bixie.boogie.ast.statement.Statement;
+import bixie.boogie.enums.BinaryOperator;
+import bixie.boogie.type.BoogieType;
+import bixie.translation.soot.SootPrelude;
+import bixie.translation.soot.SootProcedureInfo;
+import bixie.translation.soot.TranslationHelpers;
+import bixie.util.Log;
 import soot.ArrayType;
 import soot.BooleanType;
 import soot.ByteType;
@@ -46,17 +57,6 @@ import soot.jimple.FloatConstant;
 import soot.jimple.LongConstant;
 import soot.jimple.Stmt;
 import soot.jimple.StringConstant;
-import bixie.translation.soot.SootPrelude;
-import bixie.translation.soot.SootProcedureInfo;
-import bixie.translation.soot.TranslationHelpers;
-import bixie.util.Log;
-import boogie.ProgramFactory;
-import boogie.ast.Attribute;
-import boogie.ast.expression.Expression;
-import boogie.ast.expression.IdentifierExpression;
-import boogie.ast.statement.Statement;
-import boogie.enums.BinaryOperator;
-import boogie.type.BoogieType;
 
 /**
  * @author schaef
@@ -103,6 +103,7 @@ public class GlobalsCache {
 	
 	public static void resetInstance() {
 		if (instance != null) {
+			TranslationHelpers.reset();
 			GlobalsCache.instance.procedureMap.clear();
 			GlobalsCache.instance.fieldMap.clear();
 			GlobalsCache.instance.unitLabelMap.clear();

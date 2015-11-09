@@ -33,12 +33,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import bixie.translation.Options;
+import bixie.util.Log;
 import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
-import bixie.translation.Options;
-import bixie.util.Log;
 
 /**
  * The Soot Runner
@@ -53,19 +53,20 @@ public class SootRunner {
 		if (null == input || input.isEmpty()) {
 			return;
 		}
-
+		
 		if (input.endsWith(".jar")) {
 			// run with JAR file
 			runWithJar(input);
 		} else {
 			File file = new File(input);
-			if (file.isDirectory()) {
+			if (file.isDirectory()) {				
 				runWithPath(input);
 			} else {
 				throw new RuntimeException("Don't know what to do with: "
 						+ input);
 			}
 		}
+		
 	}
 	
 	
@@ -262,7 +263,7 @@ public class SootRunner {
 			Log.info("Done.");
 		} catch (UnsupportedEncodingException e) {
 			Log.error(e.toString());
-		} catch (RuntimeException e) {
+		} catch (Throwable e) {
 			Log.error("Soot could not process the input. STOPPING");
 			e.printStackTrace();
 		}				
