@@ -1,5 +1,7 @@
 package bixie.checker;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,7 +65,10 @@ public class ProgramAnalysis {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				Log.debug(sw.toString());
 				break;
 			}
 		}
@@ -150,7 +155,10 @@ public class ProgramAnalysis {
 			Log.info("Out of memory for " + p.getProcedureName());
 			exception = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			Log.debug(sw.toString());
 			exception = true;
 		} finally {
 			// cancel thread if not done

@@ -116,27 +116,29 @@ public class HtmlReportPrinter implements ReportPrinter {
 
 		}
 
-		// first extract the template from the Jar
-		extractHtmlBoilerplate();
-		StringBuilder prefix = new StringBuilder();
-		StringBuilder middle = new StringBuilder();
-		StringBuilder suffix = new StringBuilder();
-		readIndexHtmlStub(prefix, middle, suffix);
-
 		StringBuilder sb = new StringBuilder();
-		sb.append(prefix.toString());
-		sb.append(bodyText.toString());
-		sb.append(middle.toString());
-		sb.append(jsText.toString());
-		sb.append(suffix.toString());
+		//only create a website if there is at least one report.
+		if (unreachable + cirtical > 0) {
+			// first extract the template from the Jar
+			extractHtmlBoilerplate();
+			StringBuilder prefix = new StringBuilder();
+			StringBuilder middle = new StringBuilder();
+			StringBuilder suffix = new StringBuilder();
+			readIndexHtmlStub(prefix, middle, suffix);
 
-		try (PrintWriter pw = new PrintWriter(
-				new OutputStreamWriter(new FileOutputStream(indexHtml), StandardCharsets.UTF_8), true);) {
-			pw.println(sb.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
+			sb.append(prefix.toString());
+			sb.append(bodyText.toString());
+			sb.append(middle.toString());
+			sb.append(jsText.toString());
+			sb.append(suffix.toString());
+
+			try (PrintWriter pw = new PrintWriter(
+					new OutputStreamWriter(new FileOutputStream(indexHtml), StandardCharsets.UTF_8), true);) {
+				pw.println(sb.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 		sb = new StringBuilder();
 		sb.append("Summary: critical inconsistencies =");
 		sb.append(cirtical);
