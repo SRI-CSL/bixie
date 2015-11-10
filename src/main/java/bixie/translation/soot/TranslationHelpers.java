@@ -168,20 +168,27 @@ public class TranslationHelpers {
 				if (((SourceFileTag) t_).getAbsolutePath() != null) {
 					filename = ((SourceFileTag) t_).getAbsolutePath();
 				}
-				break;
+				if (filename!=null) break;
 			} else if (t_ instanceof SourceLnNamePosTag) {
-				filename = ((SourceLnNamePosTag) t_).getFileName();
-				// don't break, mybe there is still a source file tag.
-				
+				if (((SourceLnNamePosTag) t_).getFileName()!=null) {
+					filename = ((SourceLnNamePosTag) t_).getFileName();
+				}
+				// don't break, mybe there is still a source file tag.				
 			}
 		}
+		
+		if (filename==null) {
+			//try to make a name up.
+			filename = sc.getName()+".java"; 
+		}
+		
 		File srcFile = new File(filename);
 				
 		if (!srcFile.exists() && Options.v().getSrcFilesString()!=null) {
 			final String expectedName = sc.getPackageName().replace(".", File.separator) + File.separator + filename;
 			srcFile = findSourceFile(expectedName);
 			if (srcFile==null || !srcFile.exists()) {
-				Log.error("Source file not found: "+srcFile + ".\nCheck your settings.");
+				Log.debug("Source file not found: "+filename + ".\nCheck your settings.");
 			} else {
 				filename = srcFile.getAbsolutePath();
 			}
