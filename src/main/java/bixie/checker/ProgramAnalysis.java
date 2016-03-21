@@ -125,7 +125,7 @@ public class ProgramAnalysis {
 			AbstractControlFlowFactory cff) {
 		if (bixie.Options.v().getDebugMode()) {
 			Log.info("Checking: " + p.getProcedureName());
-		}		
+		}				
 		// create an executor to kill the verification with a timeout if
 		// necessary
 		ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -173,10 +173,27 @@ public class ProgramAnalysis {
 			executor.shutdown();
 
 		}
-
-		Report report = checkerThread.getReport();
 		if (exception)
 			return null;
+		
+		Report report = checkerThread.getReport();
+
+//		if (p.getProcedureName().equals("java.lang.Object$ic_java.local.FalsePositives04$peekFirst$1891")) {
+//			System.err.println("\n"+p.toString()+"\n");
+//		} else {
+////			System.err.println(p.getProcedureName());
+//		}
+//
+//		for (Set<BasicBlock> blocks : report.getInconsistentBlocks()) {
+//			StringBuilder sb = new StringBuilder();
+//			String comma = "";
+//			for (BasicBlock b : blocks) {
+//				sb.append(comma);
+//				sb.append(b.getLabel());
+//				comma = ", ";
+//			}
+//			System.err.println(sb.toString());
+//		}
 		return report;
 	}
 

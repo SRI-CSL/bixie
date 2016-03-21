@@ -75,6 +75,7 @@ public class SootBodyTransformer extends BodyTransformer {
 	@Override
 	@SuppressWarnings("rawtypes")
 	protected void internalTransform(Body arg0, String arg1, Map arg2) {
+		
 		// report.addMethod(sootMethod);
 		GlobalsCache.v().currentMethod = arg0.getMethod(); 
 		try {

@@ -65,7 +65,7 @@ public abstract class AbstractChecker implements Runnable {
 
 		SingleStaticAssignment ssa = new SingleStaticAssignment();
 		ssa.computeSSA(this.procedure);
-		this.procedure.pruneUnreachableBlocks();		
+		this.procedure.pruneUnreachableBlocks();
 	}
 
 	@Override

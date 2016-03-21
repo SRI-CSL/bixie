@@ -5,6 +5,7 @@ package bixie.checker.report;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,14 @@ public class Report {
 	
 	public Report(AbstractTransitionRelation tr) {
 		this.tr = tr;
+	}
+	
+	public Set<Set<BasicBlock>> getInconsistentBlocks() {
+		Set<Set<BasicBlock>> res = new LinkedHashSet<Set<BasicBlock>>();
+		for (Entry<Integer, Set<Set<BasicBlock>>> entry : this.inconsistentBlocks.entrySet()) {
+			res.addAll(entry.getValue());
+		}
+		return res;
 	}
 	
 	/**
