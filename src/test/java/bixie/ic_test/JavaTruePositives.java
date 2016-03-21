@@ -70,6 +70,7 @@ public class JavaTruePositives extends AbstractIcTest {
 			}
 			Main bx = new Main();
 			bixie.Options.v().setSelectedChecker(i);
+			bixie.Options.v().setTimeout(60);
 			String outFilePath = outFile.getAbsolutePath();			
 			// if no golden output has been generated for this test,
 			// generate one using the current result.
