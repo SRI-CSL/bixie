@@ -237,7 +237,7 @@ public class SootRunner {
 					sc.setApplicationClass();
 				}				
 			}
-			for (SootClass sc : Scene.v().getClasses()) {			
+			for (SootClass sc : new LinkedList<SootClass>(Scene.v().getClasses())) {			
 				if (sc.resolvingLevel()<SootClass.SIGNATURES) {			
 					continue;
 				}
