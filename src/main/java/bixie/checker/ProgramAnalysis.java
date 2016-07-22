@@ -1,5 +1,7 @@
 package bixie.checker;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,7 +65,10 @@ public class ProgramAnalysis {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				Log.debug(sw.toString());
 				break;
 			}
 		}
@@ -120,7 +125,7 @@ public class ProgramAnalysis {
 			AbstractControlFlowFactory cff) {
 		if (bixie.Options.v().getDebugMode()) {
 			Log.info("Checking: " + p.getProcedureName());
-		}		
+		}				
 		// create an executor to kill the verification with a timeout if
 		// necessary
 		ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -150,7 +155,10 @@ public class ProgramAnalysis {
 			Log.info("Out of memory for " + p.getProcedureName());
 			exception = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			Log.debug(sw.toString());
 			exception = true;
 		} finally {
 			// cancel thread if not done
@@ -165,10 +173,27 @@ public class ProgramAnalysis {
 			executor.shutdown();
 
 		}
-
-		Report report = checkerThread.getReport();
 		if (exception)
 			return null;
+		
+		Report report = checkerThread.getReport();
+
+//		if (p.getProcedureName().equals("java.lang.Object$ic_java.local.FalsePositives04$peekFirst$1891")) {
+//			System.err.println("\n"+p.toString()+"\n");
+//		} else {
+////			System.err.println(p.getProcedureName());
+//		}
+//
+//		for (Set<BasicBlock> blocks : report.getInconsistentBlocks()) {
+//			StringBuilder sb = new StringBuilder();
+//			String comma = "";
+//			for (BasicBlock b : blocks) {
+//				sb.append(comma);
+//				sb.append(b.getLabel());
+//				comma = ", ";
+//			}
+//			System.err.println(sb.toString());
+//		}
 		return report;
 	}
 

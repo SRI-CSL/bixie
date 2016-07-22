@@ -17,6 +17,7 @@ import bixie.boogie.enums.BinaryOperator;
 import bixie.translation.GlobalsCache;
 import bixie.util.Log;
 import soot.Immediate;
+import soot.RefType;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
@@ -155,11 +156,27 @@ public class InvokeTranslation {
 	// return c;
 	// }
 
+	static private void resolveBaseIfNecessary(InvokeExpr ivk) {
+		if (ivk instanceof InstanceInvokeExpr) {
+			InstanceInvokeExpr iivk = (InstanceInvokeExpr)ivk;
+			soot.Type t = iivk.getBase().getType();
+			if (t instanceof RefType) {
+				RefType rt = (RefType)t;
+				if (rt.getSootClass().resolvingLevel()<SootClass.SIGNATURES) {
+					Scene.v().forceResolve(rt.getSootClass().getName(), SootClass.SIGNATURES);					
+				}
+			}
+		}
+	} 
+	
 	static private boolean specialCaseInvoke(SootStmtSwitch ss, Value lhs,
 			InvokeExpr ivk) {
 		SootValueSwitch valueswitch = ss.getValueSwitch();
 		ProgramFactory pf = GlobalsCache.v().getPf();
 		// java.lang.String.length is treated as a special case:
+		
+		resolveBaseIfNecessary(ivk);
+		
 		if (ivk.getMethod().getSignature()
 				.contains("<java.lang.String: int length()>")
 				&& lhs != null) {

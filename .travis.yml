@@ -3,7 +3,6 @@ sudo: false
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
 
 
 env:
@@ -11,6 +10,9 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - TERM=dumb
+
+script:   
+   - gradle check -i
 
 after_success:
    - ./gradlew jacocoTestReport coveralls

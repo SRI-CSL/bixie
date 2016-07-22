@@ -181,7 +181,8 @@ public class SootRunner {
 		sootOpt.set_prepend_classpath(true); //-pp
 		sootOpt.set_output_format(soot.options.Options.output_format_none);
 		sootOpt.set_allow_phantom_refs(true);
-				
+		sootOpt.setPhaseOption("jop.cpf", "enabled:false");
+		
 		for (String s : classes) {
 			Scene.v().addBasicClass(s, SootClass.BODIES);
 		}
@@ -236,7 +237,7 @@ public class SootRunner {
 					sc.setApplicationClass();
 				}				
 			}
-			for (SootClass sc : Scene.v().getClasses()) {			
+			for (SootClass sc : new LinkedList<SootClass>(Scene.v().getClasses())) {			
 				if (sc.resolvingLevel()<SootClass.SIGNATURES) {			
 					continue;
 				}
