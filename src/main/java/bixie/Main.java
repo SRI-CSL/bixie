@@ -47,19 +47,19 @@ public class Main {
 			parser.parseArgument(args);
 
 			Main bixie = new Main();
-			if (options.getBoogieFile() != null && options.getJarFile() != null) {
-				Log.error("Can only take either Java or Boogie input. Not both");
-				return;
-			} else if (options.getBoogieFile() != null) {
-				bixie.run(options.getBoogieFile(), options.getOutputFile());
-			} else {
+//			if (options.getBoogieFile() != null && options.getJarFile() != null) {
+//				Log.error("Can only take either Java or Boogie input. Not both");
+//				return;
+//			} else if (options.getBoogieFile() != null) {
+//				bixie.run(options.getBoogieFile(), options.getOutputFile());
+//			} else {
 				String cp = options.getClasspath();
 				if (cp != null && !cp.contains(options.getJarFile())) {
 					cp += File.pathSeparatorChar + options.getJarFile();
 				}
 				bixie.translateAndRun(options.getJarFile(), cp,
 						options.getOutputFile());
-			}
+//			}
 		} catch (CmdLineException e) {
 			bixie.util.Log.error(e.toString());
 			parser.printUsage(System.err);
