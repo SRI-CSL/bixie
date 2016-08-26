@@ -48,6 +48,15 @@ public class Options {
 	}
 
 	/**
+	 * Report output
+	 */
+	@Option(name = "-json", usage = "JSON output directory")
+	private String jsonDir=null;
+	public String getJSONDir() {
+		return jsonDir;
+	}
+
+	/**
 	 * Location of the source files for reporting.
 	 */
 	@Option(name = "-src", usage = "List of all source files")

@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
+import bixie.checker.reportprinter.JSONReportPrinter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -47,19 +48,19 @@ public class Main {
 			parser.parseArgument(args);
 
 			Main bixie = new Main();
-			if (options.getBoogieFile() != null && options.getJarFile() != null) {
-				Log.error("Can only take either Java or Boogie input. Not both");
-				return;
-			} else if (options.getBoogieFile() != null) {
-				bixie.run(options.getBoogieFile(), options.getOutputFile());
-			} else {
+//			if (options.getBoogieFile() != null && options.getJarFile() != null) {
+//				Log.error("Can only take either Java or Boogie input. Not both");
+//				return;
+//			} else if (options.getBoogieFile() != null) {
+//				bixie.run(options.getBoogieFile(), options.getOutputFile());
+//			} else {
 				String cp = options.getClasspath();
 				if (cp != null && !cp.contains(options.getJarFile())) {
 					cp += File.pathSeparatorChar + options.getJarFile();
 				}
 				bixie.translateAndRun(options.getJarFile(), cp,
 						options.getOutputFile());
-			}
+//			}
 		} catch (CmdLineException e) {
 			bixie.util.Log.error(e.toString());
 			parser.printUsage(System.err);
@@ -118,7 +119,7 @@ public class Main {
 				if (!dir.exists() || !dir.isDirectory()) {
 					try {
 						if (!dir.mkdir()) {
-							throw new RuntimeException("Failed to generate folder for HTML output at "+dir+". Using command line output instead.");	
+							throw new RuntimeException("Failed to generate folder for HTML output at "+dir+". Using command line output instead.");
 						} 
 					} catch (Throwable t) {
 						Log.error(t);						
@@ -127,6 +128,20 @@ public class Main {
 					}
 				}
 				reportPrinter = new HtmlReportPrinter(dir);
+			}else if(bixie.Options.v().getJSONDir() != null){
+				File dir = new File(bixie.Options.v().getJSONDir());
+				if (!dir.exists() || !dir.isDirectory()) {
+					try {
+						if (!dir.mkdir()) {
+							throw new RuntimeException("Failed to generate folder for JSON output at "+dir+". Using command line output instead.");
+						}
+					} catch (Throwable t) {
+						Log.error(t);
+						reportPrinter = new BasicReportPrinter();
+						return reportPrinter;
+					}
+				}
+				reportPrinter = new JSONReportPrinter(dir);
 			} else {
 				reportPrinter = new BasicReportPrinter();
 			}
@@ -159,7 +174,6 @@ public class Main {
 	public ReportPrinter runChecker(ProgramFactory pf,
 			ReportPrinter reportPrinter) {
 		bixie.util.Log.info("Checking");
-
 		try {
 			ProgramAnalysis.runFullProgramAnalysis(pf, reportPrinter);
 		} catch (Exception e) {

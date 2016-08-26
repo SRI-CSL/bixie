@@ -44,7 +44,10 @@ public class ProgramAnalysis {
 
 		final long totalProcedures = (long)cff.getProcedureCFGs().size();
 		long counter = 0L;
-		
+
+		if (bixie.Options.v().getBoogieFile()!=null) {
+			cff.toFile(bixie.Options.v().getBoogieFile());
+		}
 		
 		for (CfgProcedure p : cff.getProcedureCFGs()) {
 			counter += 1;

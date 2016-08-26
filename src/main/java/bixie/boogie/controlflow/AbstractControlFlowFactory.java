@@ -488,6 +488,7 @@ public abstract class AbstractControlFlowFactory {
 				new OutputStreamWriter(new FileOutputStream(fpw), 
 						StandardCharsets.UTF_8), true);) {
 			pw.println(this.toString());
+			Log.info("Wrote boogie prog to " + fpw.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
