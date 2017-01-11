@@ -18,15 +18,13 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
  */
 public class AbstractIcTest {
 
-	protected static final String userDir = System.getProperty("user.dir")
-			+ "/";
+	protected static final String userDir = System.getProperty("user.dir") + "/";
 	protected static final String testRoot = userDir + "src/test/resources/";
 
 	@SuppressWarnings(value = "DM_DEFAULT_ENCODING")
 	protected String fileToString(File f) {
 		StringBuffer sb = new StringBuffer();
-		try (FileReader fileRead = new FileReader(f);
-				BufferedReader reader = new BufferedReader(fileRead);) {
+		try (FileReader fileRead = new FileReader(f); BufferedReader reader = new BufferedReader(fileRead);) {
 			String line;
 			while (true) {
 				line = reader.readLine();
@@ -66,13 +64,13 @@ public class AbstractIcTest {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 		return false;
 	}
 
 	protected File compileJavaFile(File sourceFile) throws IOException {
 		final File tempDir = getTempDir();
-		final String javac_command = String.format("javac -g %s -d %s",
+		final String javac_command = String.format("javac -g -cp %s %s -d %s", System.getProperty("java.class.path"),
 				sourceFile.getAbsolutePath(), tempDir.getAbsolutePath());
 
 		ProcessBuilder pb = new ProcessBuilder(javac_command.split(" "));
@@ -91,15 +89,12 @@ public class AbstractIcTest {
 	}
 
 	protected File getTempDir() throws IOException {
-		final File tempDir = File.createTempFile("bixie_test_temp",
-				Long.toString(System.nanoTime()));
+		final File tempDir = File.createTempFile("bixie_test_temp", Long.toString(System.nanoTime()));
 		if (!(tempDir.delete())) {
-			throw new IOException("Could not delete temp file: "
-					+ tempDir.getAbsolutePath());
+			throw new IOException("Could not delete temp file: " + tempDir.getAbsolutePath());
 		}
 		if (!(tempDir.mkdir())) {
-			throw new IOException("Could not create temp directory: "
-					+ tempDir.getAbsolutePath());
+			throw new IOException("Could not create temp directory: " + tempDir.getAbsolutePath());
 		}
 		return tempDir;
 	}

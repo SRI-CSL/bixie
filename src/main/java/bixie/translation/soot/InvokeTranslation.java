@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import bixie.Options;
 import bixie.boogie.ProgramFactory;
 import bixie.boogie.ast.Attribute;
 import bixie.boogie.ast.VarList;
@@ -39,10 +40,19 @@ import soot.jimple.VirtualInvokeExpr;
 public class InvokeTranslation {
 
 	public static void translateInvokeAssignment(SootStmtSwitch ss, Value lhs,
-			InvokeExpr ivk, Unit statement) {
+			InvokeExpr ivk, Unit statement) {				
 		if (specialCaseInvoke(ss, lhs, ivk))
 			return;
+		
+		if (GlobalsCache.v().jsonStubber.tryApplyStubs(ss, lhs, ivk)) {
+			return;
+		}
+		
+		if (ivk.getMethod().isJavaLibraryMethod() || !ivk.getMethod().getDeclaringClass().isApplicationClass()) {
+			Options.v().logCall(ivk.getMethod().getSignature());	
+		}
 
+		
 		SootValueSwitch valueswitch = ss.getValueSwitch();
 		SootProcedureInfo procInfo = ss.getProcInfo();
 
