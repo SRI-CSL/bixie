@@ -122,38 +122,6 @@ public class SootRunner {
 	}
 
 	/**
-	 * Enumeration containing the callgraph algorithms supported for the use
-	 * with the data flow tracker
-	 * 
-	 * @see https 
-	 *      ://github.com/secure-software-engineering/soot-infoflow/blob/develop
-	 *      /src/soot/jimple/infoflow/Infoflow.java
-	 */
-	public enum CallgraphAlgorithm {
-		None, CHA, VTA, RTA, SPARK
-	}
-
-	/**
-	 * Enumeration containing the aliasing algorithms supported by FlowDroid
-	 * 
-	 * @see https 
-	 *      ://github.com/secure-software-engineering/soot-infoflow/blob/develop
-	 *      /src/soot/jimple/infoflow/Infoflow.java
-	 */
-	public enum AliasingAlgorithm {
-		/**
-		 * A fully flow-sensitive algorithm based on Andromeda
-		 */
-		FlowSensitive,
-		/**
-		 * A flow-insensitive algorithm based on Soot's point-to-sets
-		 */
-		PtsBased
-	}
-
-
-
-	/**
 	 * Run Soot and creates an inter-procedural callgraph
 	 * that could be loaded by Soot.
 	 * @param classes additional classes that need to be loaded (e.g., when analyzing jars)
@@ -169,33 +137,7 @@ public class SootRunner {
 			Scene.v().addBasicClass(s, SootClass.BODIES);
 		}
 		
-//		CallgraphAlgorithm cga = Options.v().getCallGraphAlgorithm();
-//		if (cga!=CallgraphAlgorithm.None) {
-//			sootOpt.set_whole_program(true);
-//			// Configure the callgraph algorithm
-//			switch (cga) {
-//			case CHA:
-//				sootOpt.setPhaseOption("cg.cha", "on");
-//				break;
-//			case RTA:
-//				sootOpt.setPhaseOption("cg.spark", "on");
-//				sootOpt.setPhaseOption("cg.spark", "rta:true");
-//				sootOpt.setPhaseOption("cg.spark", "string-constants:true");
-//				
-//				break;
-//			case VTA:
-//				sootOpt.setPhaseOption("cg.spark", "on");
-//				sootOpt.setPhaseOption("cg.spark", "vta:true");
-//				sootOpt.setPhaseOption("cg.spark", "string-constants:true");
-//				break;
-//			case SPARK:
-//				sootOpt.setPhaseOption("cg.spark", "on");
-//				sootOpt.setPhaseOption("cg.spark", "string-constants:true");
-//				break;
-//			default:
-//				throw new RuntimeException("Invalid callgraph algorithm");
-//			}
-//		}
+
 
 		// Iterator Hack
 		Scene.v().addBasicClass(

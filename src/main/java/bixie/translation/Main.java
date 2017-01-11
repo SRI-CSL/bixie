@@ -1,6 +1,8 @@
 
 package bixie.translation;
 
+import java.io.File;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -64,6 +66,9 @@ public class Main {
 		} catch (Exception e) {
 			Log.error(e.toString());
 		} finally {
+			if (bixie.Options.v().exportStubsFileName!=null) {
+				GlobalsCache.v().jsonStubber.writeStubsToJson(new File(bixie.Options.v().exportStubsFileName));
+			}
 			GlobalsCache.resetInstance();
 			SootPrelude.resetInstance();
 			MhpInfo.resetInstance();

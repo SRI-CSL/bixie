@@ -1,6 +1,11 @@
 package bixie;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,6 +80,38 @@ public class Options {
 		return sourceFiles;
 	}
 
+	@Option(name = "-exportStubs", usage = "Write all used stubs to file")
+	public String exportStubsFileName = null;
+
+	@Option(name = "-importStubs", usage = "Import stubs from json file")
+	public String importStubsFileName = null;
+
+	
+	
+	@Option(name = "-logcalls", usage = "Log the signatures of all library calls. Use this for writing specs")
+	public String callsLogFileName = null;
+	private Set<String> loggedCalls = new HashSet<String>();
+	
+	public void logCall(String s) {
+		if (callsLogFileName!=null) loggedCalls.add(s);
+	}
+	
+	public void saveLoggedCalls() {
+		if (callsLogFileName!=null) {
+			try (PrintWriter pw = new PrintWriter(
+					new OutputStreamWriter(new FileOutputStream(new File(callsLogFileName)), 
+							StandardCharsets.UTF_8), true);) {
+				for (String line : loggedCalls) {
+					pw.println(line);
+				}				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+	
+	
 	
 	/**
 	 * Classpath
