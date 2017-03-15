@@ -21,6 +21,7 @@ import soot.Body;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
+import soot.SourceLocator;
 
 /**
  * The Soot Runner
@@ -30,28 +31,26 @@ import soot.SootMethod;
 public class SootRunner {
 
 	protected final soot.options.Options sootOpt = soot.options.Options.v();
-	
+
 	public void run(String input) {
 		if (null == input || input.isEmpty()) {
 			return;
 		}
-		
+
 		if (input.endsWith(".jar")) {
 			// run with JAR file
 			runWithJar(input);
 		} else {
 			File file = new File(input);
-			if (file.isDirectory()) {				
+			if (file.isDirectory()) {
 				runWithPath(input);
 			} else {
-				throw new RuntimeException("Don't know what to do with: "
-						+ input);
+				throw new RuntimeException("Don't know what to do with: " + input);
 			}
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Runs Soot by using a JAR file
 	 * 
@@ -72,10 +71,10 @@ public class SootRunner {
 			if (Options.v().hasClasspath()) {
 				cp += File.pathSeparatorChar + Options.v().getClasspath();
 			}
-			
+
 			// set soot-class-path
-			sootOpt.set_soot_classpath(cp);			
-			
+			sootOpt.set_soot_classpath(cp);
+
 			// finally, run soot
 			runSootAndAnalysis(enumClasses(new File(jarFile)));
 
@@ -83,8 +82,6 @@ public class SootRunner {
 			Log.error(e.toString());
 		}
 	}
-
-
 
 	/**
 	 * Runs Soot by using a path (e.g., from Joogie)
@@ -118,65 +115,87 @@ public class SootRunner {
 
 		} catch (Exception e) {
 			Log.error(e.toString());
-		}		
+		}
 	}
 
 	/**
-	 * Run Soot and creates an inter-procedural callgraph
-	 * that could be loaded by Soot.
-	 * @param classes additional classes that need to be loaded (e.g., when analyzing jars)
+	 * Run Soot and creates an inter-procedural callgraph that could be loaded
+	 * by Soot.
+	 * 
+	 * @param classes
+	 *            additional classes that need to be loaded (e.g., when
+	 *            analyzing jars)
 	 */
 	protected void runSootAndAnalysis(List<String> classes) {
 		sootOpt.set_keep_line_number(true);
-		sootOpt.set_prepend_classpath(true); //-pp
+		sootOpt.set_prepend_classpath(true); // -pp
 		sootOpt.set_output_format(soot.options.Options.output_format_none);
 		sootOpt.set_allow_phantom_refs(true);
 		sootOpt.setPhaseOption("jop.cpf", "enabled:false");
-		
+
 		for (String s : classes) {
 			Scene.v().addBasicClass(s, SootClass.BODIES);
 		}
-		
-
 
 		// Iterator Hack
-		Scene.v().addBasicClass(
-				"org.eclipse.jdt.core.compiler.CategorizedProblem",
-				SootClass.HIERARCHY);
+		Scene.v().addBasicClass("org.eclipse.jdt.core.compiler.CategorizedProblem", SootClass.HIERARCHY);
 		Scene.v().addBasicClass("java.lang.Iterable", SootClass.SIGNATURES);
 		Scene.v().addBasicClass("java.util.Iterator", SootClass.SIGNATURES);
-		Scene.v()
-				.addBasicClass("java.lang.reflect.Array", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("java.lang.reflect.Array", SootClass.SIGNATURES);
 
 		try {
 			// redirect soot output into a stream.
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			soot.G.v().out = new PrintStream(baos, true, "utf-8");				
-			//Now load the soot classes.
-			Scene.v().loadNecessaryClasses();
-			Scene.v().loadBasicClasses();
-			
+			soot.G.v().out = new PrintStream(baos, true, "utf-8");
+			// Now load the soot classes.
+			try {
+				final String osname = System.getProperty("os.name");
+				System.setProperty("os.name", "Whatever");
+//				Scene.v().loadNecessaryClasses();
+		        for( final String path : soot.options.Options.v().process_dir() ) {
+		            for (String cl : SourceLocator.v().getClassesUnder(path)) {
+		            	try {
+			            	SootClass theClass = Scene.v().loadClassAndSupport(cl);
+			            	if (!theClass.isPhantom()) {
+			            		theClass.setApplicationClass();
+			            	}		            	
+		            	} catch (Throwable e) {
+		            		//ignore
+		            	}
+		            }
+		        }			
+								
+				System.setProperty("os.name", osname);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			try {
+				Scene.v().loadBasicClasses();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+
 			for (SootClass sc : Scene.v().getClasses()) {
 				if (classes.contains(sc.getName())) {
 					sc.setApplicationClass();
-				}				
+				}
 			}
-			for (SootClass sc : new LinkedList<SootClass>(Scene.v().getClasses())) {			
-				if (sc.resolvingLevel()<SootClass.SIGNATURES) {			
+			for (SootClass sc : new LinkedList<SootClass>(Scene.v().getClasses())) {
+				if (sc.resolvingLevel() < SootClass.SIGNATURES) {
 					continue;
 				}
-				if (sc.isApplicationClass()) {					
+				if (sc.isApplicationClass()) {
 					for (SootMethod sm : sc.getMethods()) {
-						if (sm.isConcrete()) {							
+						if (sm.isConcrete()) {
 							try {
 								Body body = sm.retrieveActiveBody();
 								sm.setActiveBody(body);
-								if (body!=null) {
+								if (body != null) {
 									SootBodyTransformer sbt = new SootBodyTransformer();
 									sbt.transform(body);
 								}
 							} catch (Throwable t) {
-								Log.error("Failed to process "+sm.getSignature());
+								Log.error("Failed to process " + sm.getSignature());
 								t.printStackTrace();
 							}
 						}
@@ -184,17 +203,15 @@ public class SootRunner {
 					}
 				}
 
-			}			
+			}
 			Log.info("Done.");
 		} catch (UnsupportedEncodingException e) {
 			Log.error(e.toString());
 		} catch (Throwable e) {
 			Log.error("Soot could not process the input. STOPPING");
 			e.printStackTrace();
-		}				
+		}
 	}
-
-
 
 	/**
 	 * Returns the class path argument for Soot
@@ -216,8 +233,7 @@ public class SootRunner {
 	 * 
 	 * @param file
 	 *            JAR file object
-	 * @returns jarFiles
-	 *            List of dependent JARs
+	 * @returns jarFiles List of dependent JARs
 	 */
 	protected List<File> extractClassPath(File file) {
 		List<File> jarFiles = new LinkedList<File>();
@@ -236,8 +252,7 @@ public class SootRunner {
 				jarFile.close();
 				return jarFiles;
 			}
-			String classPath = mainAttributes
-					.getValue(Attributes.Name.CLASS_PATH);
+			String classPath = mainAttributes.getValue(Attributes.Name.CLASS_PATH);
 
 			// close JAR file
 			jarFile.close();
@@ -251,8 +266,7 @@ public class SootRunner {
 			for (String classPathItem : classPathItems) {
 				if (classPathItem.endsWith(".jar")) {
 					// add jar
-					Log.debug("Adding " + classPathItem
-							+ " to Soot's class path");
+					Log.debug("Adding " + classPathItem + " to Soot's class path");
 					jarFiles.add(new File(file.getParent(), classPathItem));
 				}
 			}
@@ -263,10 +277,11 @@ public class SootRunner {
 		return jarFiles;
 	}
 
-
 	/**
 	 * Enumerates all classes in a JAR file
-	 * @param file a Jar file
+	 * 
+	 * @param file
+	 *            a Jar file
 	 * @returns list of classes in the Jar file.
 	 */
 	protected List<String> enumClasses(File file) {
@@ -284,8 +299,7 @@ public class SootRunner {
 
 				if (entryName.endsWith(".class")) {
 					// get class
-					String className = entryName.substring(0,
-							entryName.length() - ".class".length());
+					String className = entryName.substring(0, entryName.length() - ".class".length());
 					className = className.replace('/', '.');
 
 					// add class
