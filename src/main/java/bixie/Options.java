@@ -80,6 +80,10 @@ public class Options {
 		return sourceFiles;
 	}
 
+	@Option(name = "-serverityLimit", usage = "Maximum serverity level for warnings.")
+	public int serverityLimit = 2;
+
+	
 	@Option(name = "-exportStubs", usage = "Write all used stubs to file")
 	public String exportStubsFileName = null;
 
