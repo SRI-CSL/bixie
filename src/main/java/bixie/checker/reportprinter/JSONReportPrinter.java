@@ -64,6 +64,10 @@ public class JSONReportPrinter implements ReportPrinter {
 
 	protected void consumeReport(Report r) {
 		for (Entry<Integer, List<Report.FaultExplanation>> entry : r.getReports().entrySet()) {
+			if (entry.getKey()>bixie.Options.v().serverityLimit) {
+				// suppress warnings above threshold.
+				continue;
+			}
 			for (Report.FaultExplanation fe : entry.getValue()) {
 				JSONbug bug = new JSONbug();
 				bug.setBug_class("Inconsistent code found by Bixie");

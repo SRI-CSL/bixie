@@ -107,17 +107,18 @@ public class HtmlReportPrinter implements ReportPrinter {
 				bodyText.append("<p>Nothing found</p>\n");
 			}
 			cirtical += count;
-			bodyText.append("<h6>Unreachability warnings</h6>\n");
-			count = createSnippet(fname, bodyText, jsText, 1);
-			if (count == 0) {
-				bodyText.append("<p>Nothing found</p>\n");
+			if (bixie.Options.v().serverityLimit > 0) {
+				bodyText.append("<h6>Unreachability warnings</h6>\n");
+				count = createSnippet(fname, bodyText, jsText, 1);
+				if (count == 0) {
+					bodyText.append("<p>Nothing found</p>\n");
+				}
+				unreachable += count;
 			}
-			unreachable += count;
-
 		}
 
 		StringBuilder sb = new StringBuilder();
-		//only create a website if there is at least one report.
+		// only create a website if there is at least one report.
 		if (unreachable + cirtical > 0) {
 			// first extract the template from the Jar
 			extractHtmlBoilerplate();
