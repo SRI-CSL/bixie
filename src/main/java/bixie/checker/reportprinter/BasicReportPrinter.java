@@ -73,7 +73,7 @@ public class BasicReportPrinter implements ReportPrinter {
 			//TODO: don't hard code the keys.
 			sb.append("In File: " + fname+"\n");
 			cirtical+= printReportForFileBySeverity(sb, fname, 0, "** Critical **");
-			if (bixie.Options.v().serverityLimit>0){
+			if (bixie.Options.v().severityLimit>0){
 				unreachable += printReportForFileBySeverity(sb, fname, 1, " - Unreachable -");
 			}
 		}

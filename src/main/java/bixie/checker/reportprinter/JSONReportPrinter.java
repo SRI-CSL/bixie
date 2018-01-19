@@ -64,7 +64,7 @@ public class JSONReportPrinter implements ReportPrinter {
 
 	protected void consumeReport(Report r) {
 		for (Entry<Integer, List<Report.FaultExplanation>> entry : r.getReports().entrySet()) {
-			if (entry.getKey()>bixie.Options.v().serverityLimit) {
+			if (entry.getKey()>bixie.Options.v().severityLimit) {
 				// suppress warnings above threshold.
 				continue;
 			}

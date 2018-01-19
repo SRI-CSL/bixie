@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kohsuke.args4j.Option;
 
 /**
@@ -64,7 +67,7 @@ public class Options {
 	/**
 	 * Location of the source files for reporting.
 	 */
-	@Option(name = "-src", usage = "List of all source files")
+	@Option(name = "-src", usage = "List of all source files separated by colon, or list of root folders.")
 	private String srcFilesString=null;
 	private Set<String> sourceFiles = null;
 	public Set<String> getSrcFilesString() {
@@ -73,15 +76,37 @@ public class Options {
 			sourceFiles = new HashSet<String>();
 			if (files!=null) {
 				for (String s : files) {
-					sourceFiles.add(s);
+					File f = new File(s);
+					if (f.exists()) {
+						if (f.isFile()) {
+							sourceFiles.add(f.getAbsolutePath());
+						} else if (f.isDirectory()) {
+							sourceFiles.addAll(findFilesRecursively(f, ".java"));
+						}
+					} else {
+						//log error
+					}
 				}
 			}
 		}
 		return sourceFiles;
 	}
 
-	@Option(name = "-serverityLimit", usage = "Maximum serverity level for warnings.")
-	public int serverityLimit = 2;
+	private List<String> findFilesRecursively(File f, String ending) {
+		List<String> res = new ArrayList<String>();
+		if (f.isDirectory()) {
+			for (File c : f.listFiles()) {
+				res.addAll(findFilesRecursively(c, ending));
+			}
+		} else if (f.isFile() && f.getAbsolutePath().endsWith(ending)) {
+			res.add(f.getAbsolutePath());
+		}
+		return res;
+	}
+	
+
+	@Option(name = "-severityLimit", usage = "Maximum severity level for warnings.")
+	public int severityLimit = 2;
 
 	
 	@Option(name = "-exportStubs", usage = "Write all used stubs to file")

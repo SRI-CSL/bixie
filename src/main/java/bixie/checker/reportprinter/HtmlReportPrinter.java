@@ -107,7 +107,7 @@ public class HtmlReportPrinter implements ReportPrinter {
 				bodyText.append("<p>Nothing found</p>\n");
 			}
 			cirtical += count;
-			if (bixie.Options.v().serverityLimit > 0) {
+			if (bixie.Options.v().severityLimit > 0) {
 				bodyText.append("<h6>Unreachability warnings</h6>\n");
 				count = createSnippet(fname, bodyText, jsText, 1);
 				if (count == 0) {

@@ -9,6 +9,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import bixie.checker.reportprinter.JSONReportPrinter;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -74,7 +76,7 @@ public class Main {
 		if (input != null && input.endsWith(".bpl")) {
 			try {
 				ProgramFactory pf = new ProgramFactory(input);
-				ReportPrinter jp = runChecker(pf);
+				@NonNull ReportPrinter jp = runChecker(pf);
 				report2File(jp);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -112,7 +114,7 @@ public class Main {
 
 	private ReportPrinter reportPrinter = null;
 	
-	protected ReportPrinter getReportPrinter() {
+	protected @NonNull ReportPrinter getReportPrinter() {
 		if (reportPrinter==null) {
 			if (bixie.Options.v().getHtmlDir()!=null) {
 				File dir = new File(bixie.Options.v().getHtmlDir());
@@ -149,12 +151,12 @@ public class Main {
 		return reportPrinter;
 	}
 	
-	public ReportPrinter translateAndRun(String input, String classpath) {
+	public @NonNull ReportPrinter translateAndRun(String input, String classpath) {
 		return translateAndRun(input, classpath, getReportPrinter());
 	}
 
-	public ReportPrinter translateAndRun(String input, String classpath,
-			ReportPrinter reportPrinter) {
+	public @NonNull ReportPrinter translateAndRun(String input, String classpath,
+			@NonNull ReportPrinter reportPrinter) {
 		bixie.util.Log.info("Translating. This may take a while.");
 		
 		bixie.translation.Main.setClassPath(classpath);
@@ -164,18 +166,18 @@ public class Main {
 		bixie.util.Log.info("... translation finished.");
 		if (pf == null) {
 			bixie.util.Log.error("Internal Error: Parsing failed");
-			return null;
+			return reportPrinter;
 		}
 		ReportPrinter jp = runChecker(pf, reportPrinter);
 		return jp;
 	}
 
-	public ReportPrinter runChecker(ProgramFactory pf) {
+	public @NonNull ReportPrinter runChecker(ProgramFactory pf) {
 		return runChecker(pf, getReportPrinter());
 	}
 
-	public ReportPrinter runChecker(ProgramFactory pf,
-			ReportPrinter reportPrinter) {
+	public @NonNull ReportPrinter runChecker(ProgramFactory pf,
+			@NonNull ReportPrinter reportPrinter) {
 		bixie.util.Log.info("Checking");
 		try {
 			ProgramAnalysis.runFullProgramAnalysis(pf, reportPrinter);
