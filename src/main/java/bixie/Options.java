@@ -70,6 +70,11 @@ public class Options {
 	@Option(name = "-src", usage = "List of all source files separated by colon, or list of root folders.")
 	private String srcFilesString=null;
 	private Set<String> sourceFiles = null;
+	public void setSrcFileString(String s) {
+		srcFilesString = s;
+		sourceFiles = null;
+		getSrcFilesString();
+	}
 	public Set<String> getSrcFilesString() {
 		if (srcFilesString!=null && sourceFiles==null) {
 			String[] files = srcFilesString.split(File.pathSeparator);
